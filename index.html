@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAPTA Technologies — Website Redesign Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:       #05070a;
+  --bg2:      #0b0f14;
+  --bg3:      #111820;
+  --accent:   #00E5A0;
+  --accent-g: rgba(0,229,160,0.12);
+  --red:      #ff4a4a;
+  --text:     #f0eee8;
+  --muted:    #7a8494;
+  --border:   rgba(255,255,255,0.07);
+  --border-h: rgba(255,255,255,0.14);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+
+/* ── NAV ── */
+header {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 200;
+  backdrop-filter: blur(16px);
+  background: rgba(5,7,10,0.75);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  height: 64px; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--accent); }
+.nav-pill {
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--accent);
+  border: 1px solid rgba(0,229,160,0.25);
+  padding: 5px 14px;
+}
+.nav-cta {
+  background: var(--accent); color: #05070a;
+  font-weight: 700; font-size: 13px;
+  padding: 9px 22px; text-decoration: none;
+  transition: opacity .2s;
+}
+.nav-cta:hover { opacity: .85; }
+
+/* ── CONTAINER ── */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+}
+.reveal.active { opacity: 1; transform: none; }
+.d1 { transition-delay: .1s; }
+.d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; }
+.d4 { transition-delay: .4s; }
+
+/* ── SECTION BASE ── */
+section {
+  padding: 120px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  position: relative;
+}
+
+.section-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 14px;
+}
+.section-title {
+  font-size: clamp(32px,4vw,52px);
+  font-weight: 800; letter-spacing: -1.5px;
+  line-height: 1.1; margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 17px; color: var(--muted); font-weight: 400;
+  max-width: 560px; line-height: 1.7;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 14px;
+  padding: 13px 28px; text-decoration: none;
+  transition: all .25s; cursor: pointer; border: none;
+}
+.btn-accent { background: var(--accent); color: #05070a; }
+.btn-accent:hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,229,160,.25); }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-h); }
+.btn-outline:hover { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.25); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); border-color: var(--border-h); }
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 140px;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,229,160,.07) 0%, transparent 70%),
+    radial-gradient(circle at 80% 80%, rgba(0,102,255,.04) 0%, transparent 50%);
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black, transparent);
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  text-align: center;
+  max-width: 860px; margin: 0 auto;
+}
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,229,160,.08); border: 1px solid rgba(0,229,160,.2);
+  padding: 6px 18px; margin-bottom: 36px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent);
+}
+.hero-tag::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--accent); border-radius: 50%;
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
+
+#hero h1 {
+  font-size: clamp(42px,6vw,80px);
+  font-weight: 800; letter-spacing: -2.5px;
+  line-height: 1.05; margin-bottom: 24px;
+  background: linear-gradient(to bottom, #fff 40%, #8a939e 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.hero-italic {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  background: linear-gradient(135deg, var(--accent), #00b4d8);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+#hero p {
+  font-size: 19px; color: var(--muted); font-weight: 400;
+  max-width: 600px; margin: 0 auto 44px; line-height: 1.75;
+}
+
+.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  letter-spacing: 2px; text-transform: uppercase;
+  animation: fadeUp 1s 1s ease both;
+}
+.scroll-hint-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollDrop 2s infinite;
+}
+@keyframes scrollDrop {
+  0%,100%{transform:scaleY(1);opacity:1}
+  50%{transform:scaleY(.5);opacity:.4}
+}
+@keyframes fadeUp { from{opacity:0;transform:translate(-50%,10px)} to{opacity:1;transform:translate(-50%,0)} }
+
+/* ══════════════════════════════════
+   ABOUT ME (Presenter)
+══════════════════════════════════ */
+#about {
+  background: var(--bg2);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: center;
+}
+.about-img-wrap {
+  position: relative;
+}
+.about-img-frame {
+  width: 100%; aspect-ratio: 3/4;
+  overflow: hidden;
+  border: 1px solid var(--border-h);
+  position: relative;
+}
+.about-img-frame img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(.85) saturate(.9);
+  transition: filter .4s;
+}
+.about-img-frame:hover img { filter: brightness(.95) saturate(1); }
+/* accent corner */
+.about-img-frame::before {
+  content: '';
+  position: absolute; top: -6px; left: -6px;
+  width: 40px; height: 40px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  z-index: 2;
+}
+.about-img-frame::after {
+  content: '';
+  position: absolute; bottom: -6px; right: -6px;
+  width: 40px; height: 40px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  z-index: 2;
+}
+.about-cert {
+  position: absolute; bottom: 24px; left: -20px;
+  background: rgba(5,7,10,.95); border: 1px solid rgba(0,229,160,.3);
+  padding: 12px 18px; backdrop-filter: blur(10px);
+}
+.about-cert-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; }
+.about-cert-val { font-size: 13px; font-weight: 700; margin-top: 2px; }
+
+.about-content .section-eyebrow { margin-bottom: 10px; }
+.about-content h2 {
+  font-size: clamp(28px,3.5vw,42px);
+  font-weight: 800; letter-spacing: -1.2px;
+  line-height: 1.1; margin-bottom: 20px;
+}
+.about-content p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 32px; }
+
+.about-skills {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px;
+}
+.skill-pill {
+  font-size: 12px; font-weight: 600;
+  padding: 5px 14px;
+  background: rgba(0,229,160,.07);
+  border: 1px solid rgba(0,229,160,.2);
+  color: var(--accent);
+}
+
+.about-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 8px;
+}
+.about-stat { background: var(--bg2); padding: 20px 16px; }
+.about-stat-n {
+  font-size: 28px; font-weight: 800;
+  letter-spacing: -1px; color: var(--accent);
+  line-height: 1;
+}
+.about-stat-l { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ══════════════════════════════════
+   PROBLEMS
+══════════════════════════════════ */
+#problem { background: var(--bg); }
+
+.problem-wrap {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 60px;
+}
+.problem-card {
+  background: var(--bg2); padding: 40px 36px;
+  position: relative; overflow: hidden;
+  transition: background .3s;
+}
+.problem-card:hover { background: var(--bg3); }
+.problem-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--red);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .35s;
+}
+.problem-card:hover::before { transform: scaleX(1); }
+.problem-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  color: var(--red); text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; letter-spacing: -.3px; }
+.problem-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* site screenshot comparison */
+.site-compare {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; margin-top: 60px;
+}
+.site-frame {
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.site-frame-label {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 4px 10px;
+  backdrop-filter: blur(8px);
+}
+.site-frame-label.before { background: rgba(255,74,74,.15); color: #ff4a4a; border: 1px solid rgba(255,74,74,.3); }
+.site-frame-label.after  { background: rgba(0,229,160,.1);  color: var(--accent); border: 1px solid rgba(0,229,160,.3); }
+.site-frame img { width: 100%; display: block; filter: brightness(.75); transition: filter .4s; }
+.site-frame:hover img { filter: brightness(.95); }
+
+/* ══════════════════════════════════
+   IMPACT / COST
+══════════════════════════════════ */
+#impact { background: var(--bg2); }
+
+.impact-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 60px;
+}
+.impact-card {
+  background: var(--bg2); padding: 48px 36px;
+  text-align: center; transition: background .3s;
+}
+.impact-card:hover { background: var(--bg3); }
+.impact-number {
+  font-family: 'Instrument Serif', serif;
+  font-size: 52px; font-weight: 400; font-style: italic;
+  color: var(--red); line-height: 1; margin-bottom: 16px;
+}
+.impact-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; letter-spacing: -.3px; }
+.impact-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ══════════════════════════════════
+   DEMO PREVIEW
+══════════════════════════════════ */
+#demo { background: var(--bg); overflow: hidden; }
+
+.demo-browser {
+  margin-top: 60px;
+  border: 1px solid var(--border-h);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,.6);
+}
+
+.browser-bar {
+  height: 38px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px; padding: 0 16px;
+}
+.b-dot { width: 10px; height: 10px; border-radius: 50%; }
+.browser-url {
+  flex: 1; height: 22px;
+  background: rgba(0,0,0,.3);
+  border: 1px solid var(--border);
+  margin: 0 12px;
+  display: flex; align-items: center; padding: 0 12px;
+  font-size: 11px; color: var(--muted);
+}
+
+.demo-screen {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+.demo-screen img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top;
+  display: block;
+  filter: brightness(.8);
+}
+/* overlay with hero text sim */
+.demo-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(5,7,10,.8) 0%, rgba(5,7,10,.3) 100%);
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 60px;
+  gap: 20px;
+}
+.demo-tag-sim {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent);
+  border: 1px solid rgba(0,229,160,.3);
+  padding: 5px 14px;
+}
+.demo-h1-sim {
+  font-size: clamp(28px,4vw,52px);
+  font-weight: 800; letter-spacing: -1.5px;
+  line-height: 1.1; max-width: 500px;
+}
+.demo-h1-sim em { font-style: normal; color: var(--accent); }
+.demo-p-sim { font-size: 16px; color: var(--muted); max-width: 420px; line-height: 1.7; }
+.demo-btns-sim { display: flex; gap: 12px; margin-top: 8px; }
+.demo-btn-a {
+  background: var(--accent); color: #05070a;
+  font-size: 13px; font-weight: 700; padding: 12px 24px;
+}
+.demo-btn-b {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border-h);
+  font-size: 13px; font-weight: 600; padding: 12px 24px;
+}
+
+/* orbit preview in demo */
+.demo-orbit-preview {
+  position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+  width: 280px; height: 280px; opacity: .7;
+}
+.demo-orbit-ring {
+  position: absolute; top: 50%; left: 50%; border-radius: 50%;
+  border: 1px dashed rgba(0,229,160,.15);
+  transform: translate(-50%,-50%);
+}
+.demo-orbit-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 60px; height: 60px; border-radius: 50%;
+  background: rgba(0,229,160,.08); border: 1px solid rgba(0,229,160,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: var(--text);
+}
+.demo-orbit-dot {
+  position: absolute; top: 50%; left: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(13,17,23,.9); border: 1px solid rgba(0,229,160,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; margin: -18px 0 0 -18px;
+}
+
+/* ══════════════════════════════════
+   BEFORE / AFTER
+══════════════════════════════════ */
+#comparison { background: var(--bg2); }
+
+.comparison-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; margin-top: 60px;
+}
+.comp-side {
+  padding: 48px; position: relative; overflow: hidden;
+}
+.comp-before {
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.comp-after {
+  background: #0a1610;
+  border: 1px solid rgba(0,229,160,.2);
+  box-shadow: inset 0 0 40px rgba(0,229,160,.02);
+}
+.comp-label {
+  position: absolute; top: 20px; right: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; padding: 4px 12px;
+}
+.comp-label.before { color: var(--muted); border: 1px solid var(--border); }
+.comp-label.after  { color: var(--accent); border: 1px solid rgba(0,229,160,.3); }
+.comp-heading { font-size: 20px; font-weight: 700; margin-bottom: 28px; letter-spacing: -.5px; }
+.comp-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.comp-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.5; }
+.comp-icon { font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+.neg { color: var(--red); }
+.pos { color: var(--accent); }
+
+/* ══════════════════════════════════
+   STRATEGY
+══════════════════════════════════ */
+#strategy { background: var(--bg); }
+
+.strategy-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 60px;
+}
+.strat-card {
+  background: var(--bg2); padding: 44px 36px;
+  position: relative; overflow: hidden;
+  transition: background .3s;
+}
+.strat-card:hover { background: var(--bg3); }
+.strat-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .35s;
+}
+.strat-card:hover::after { transform: scaleX(1); }
+.strat-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 20px;
+}
+.strat-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; letter-spacing: -.3px; }
+.strat-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ══════════════════════════════════
+   PROJECTS SHOWCASE
+══════════════════════════════════ */
+#projects-sec { background: var(--bg2); }
+
+.projects-showcase {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 24px; margin-top: 60px;
+}
+.proj-card {
+  background: var(--bg); border: 1px solid var(--border);
+  overflow: hidden; transition: border-color .3s, transform .3s;
+}
+.proj-card:hover { border-color: var(--border-h); transform: translateY(-4px); }
+.proj-card.wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
+.proj-img { overflow: hidden; }
+.proj-img img {
+  width: 100%; height: 100%; min-height: 220px;
+  object-fit: cover; display: block;
+  filter: brightness(.7); transition: transform .5s, filter .4s;
+}
+.proj-card:hover .proj-img img { transform: scale(1.04); filter: brightness(.85); }
+.proj-body { padding: 32px; }
+.proj-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.proj-tag {
+  font-size: 11px; font-weight: 500; padding: 3px 10px;
+  background: rgba(255,255,255,.05); border: 1px solid var(--border); color: var(--muted);
+}
+.proj-card h3 { font-size: 20px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 8px; }
+.proj-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ══════════════════════════════════
+   CTA / CLOSE
+══════════════════════════════════ */
+#cta {
+  background: var(--bg);
+  text-align: center;
+  background-image: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,229,160,.05) 0%, transparent 70%);
+}
+.cta-inner { max-width: 720px; margin: 0 auto; }
+.cta-inner h2 {
+  font-size: clamp(36px,5vw,64px);
+  font-weight: 800; letter-spacing: -2px;
+  line-height: 1.05; margin-bottom: 20px;
+}
+.cta-inner h2 em { font-style: normal; color: var(--accent); }
+.cta-inner p { font-size: 18px; color: var(--muted); margin-bottom: 48px; line-height: 1.75; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 56px; }
+
+.contact-bar {
+  display: flex; gap: 32px; justify-content: center;
+  flex-wrap: wrap; padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.contact-item { display: flex; flex-direction: column; gap: 4px; }
+.contact-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.contact-val { font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.contact-val:hover { text-decoration: underline; }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.footer-inner {
+  max-width: 1200px; width: 100%; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-copy { font-size: 13px; color: var(--muted); }
+.footer-note { font-size: 12px; color: var(--muted); font-style: italic; }
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 900px) {
+  section { padding: 80px 0; }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-img-wrap { max-width: 340px; }
+  .problem-wrap { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .comparison-grid { grid-template-columns: 1fr; }
+  .strategy-grid { grid-template-columns: 1fr; }
+  .projects-showcase { grid-template-columns: 1fr; }
+  .proj-card.wide { grid-column: auto; grid-template-columns: 1fr; }
+  .demo-orbit-preview { display: none; }
+  .demo-overlay { padding: 32px; }
+  .site-compare { grid-template-columns: 1fr; }
+  .contact-bar { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="nav-inner">
+    <div class="nav-logo">ZAPTA<span>.</span></div>
+    <div class="nav-pill">Website Redesign Proposal</div>
+    <a href="./demo.html" target="_blank" class="nav-cta">View Live Demo →</a>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-tag reveal">Digital Performance Audit · 2026</div>
+      <h1 class="reveal d1">Your Website Is Costing You <span class="hero-italic">Opportunities.</span></h1>
+      <p class="reveal d2">Every day, high-intent buyers land on your homepage and leave without a trace. It's not a traffic problem — it's a positioning deficit.</p>
+      <div class="hero-actions reveal d3">
+        <a href="#problem" class="btn btn-accent">See What's Missing ↓</a>
+        <a href="./demo.html" target="_blank" class="btn btn-outline">View Live Concept →</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ══ ABOUT ME ══ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <div class="about-img-frame">
+          <!-- Premium Unsplash: confident developer at desk -->
+          <img
+            src="./images/Gemini_Generated_Image_i6dlhyi6dlhyi6dl.png"
+            alt="Enoch Babatunde — Frontend Developer"
+            onerror="this.src='https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=800&q=90'"
+          >
+        </div>
+        <div class="about-cert">
+          <div class="about-cert-label">🏅 Certified</div>
+          <div class="about-cert-val">Best Student · Frontend Dev</div>
+        </div>
+      </div>
+      <div class="about-content reveal d2">
+        <div class="section-eyebrow">Who's Presenting</div>
+        <h2>Hi, I'm Enoch Babatunde —<br>Frontend Developer.</h2>
+        <p>Based in Abeokuta, Nigeria. 3+ years of self-taught experience building modern, performant web interfaces. Currently pursuing a B.Sc. in Software Engineering at Chrisland University and certified by SQI College of ICT as Best Student in Frontend Development.</p>
+        <p>I specialize in clean, animated, conversion-focused web experiences — exactly the kind ZAPTA deserves.</p>
+        <div class="about-skills">
+          <span class="skill-pill">HTML / CSS</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">Firebase</span>
+          <span class="skill-pill">UI / UX</span>
+          <span class="skill-pill">Animations</span>
+        </div>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="about-stat-n">3+</div>
+            <div class="about-stat-l">Years Experience</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-n">SQI</div>
+            <div class="about-stat-l">Certified Dev</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-n">↗</div>
+            <div class="about-stat-l">Open to Work</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROBLEMS ══ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">The Current State</div>
+      <h2 class="section-title">Identified Friction Points</h2>
+      <p class="section-sub">An honest, analytical look at zaptatech.com's live web presence — and what it's silently costing you.</p>
+    </div>
+
+    <!-- Site screenshots: current vs concept -->
+    <div class="site-compare reveal d1">
+      <div class="site-frame">
+        <div class="site-frame-label before">Current Site</div>
+        <img
+          src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=900&q=85"
+          alt="Generic template website"
+          onerror="this.src='https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?auto=format&fit=crop&w=900&q=85'"
+        >
+      </div>
+      <div class="site-frame">
+        <div class="site-frame-label after">Redesign Concept</div>
+        <img
+          src="https://images.unsplash.com/photo-1517430816045-df4b7de01a42?auto=format&fit=crop&w=900&q=85"
+          alt="Premium dark modern website"
+          onerror="this.src='https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=900&q=85'"
+        >
+      </div>
+    </div>
+
+    <div class="problem-wrap reveal d2">
+      <div class="problem-card">
+        <div class="problem-num">Issue 01</div>
+        <h3>Weak Visual Hierarchy</h3>
+        <p>Core value propositions blend into the background. Visitors can't understand what makes ZAPTA special within the critical first 3 seconds — the window before they bounce.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">Issue 02</div>
+        <h3>Generic Color & Typography</h3>
+        <p>The standard blue/white palette mirrors thousands of other agencies. There's nothing distinctive that signals "world-class AI software company" to a new visitor.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">Issue 03</div>
+        <h3>Static, No Interactions</h3>
+        <p>No scroll animations, no micro-interactions. The site feels passive — inconsistent with the innovative, AI-forward identity ZAPTA projects in everything else it does.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">Issue 04</div>
+        <h3>Buried Social Proof</h3>
+        <p>Terry Peterson's powerful video testimonial requires a manual click to play. This buried trust signal should be working automatically from the first scroll.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">Issue 05</div>
+        <h3>Empty Hero Real Estate</h3>
+        <p>The right half of the hero section is wasted. A visually rich element — like a service orbit or animated visual — would massively improve engagement and dwell time.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">Issue 06</div>
+        <h3>Weak CTA Positioning</h3>
+        <p>Calls-to-action are passive and poorly placed. High-intent visitors have to search for a way to engage — and most won't. Every extra click loses a potential client.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ IMPACT ══ -->
+<section id="impact">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">Business Reality</div>
+      <h2 class="section-title">The Invisible Drain</h2>
+      <p class="section-sub" style="margin:0 auto;">A weak digital presence isn't neutral — it actively costs you leads, authority, and revenue.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-card reveal d1">
+        <div class="impact-number">Lost</div>
+        <h3>Inbound Leads</h3>
+        <p>Qualified leads dropping off due to cognitive friction and unclear value positioning during the first discovery visit.</p>
+      </div>
+      <div class="impact-card reveal d2">
+        <div class="impact-number">Diluted</div>
+        <h3>Brand Authority</h3>
+        <p>When your engineering is world-class but your website feels standard, market perception defaults to standard — costing you premium deals.</p>
+      </div>
+      <div class="impact-card reveal d3">
+        <div class="impact-number">Higher</div>
+        <h3>Acquisition Costs</h3>
+        <p>Marketing spend compounds when it drives traffic into a funnel that underconverts. Every improvement to the site multiplies ROI on existing ad spend.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEMO PREVIEW ══ -->
+<section id="demo">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">The Redesign Concept</div>
+      <h2 class="section-title">Built. Live. Ready to Deploy.</h2>
+      <p class="section-sub" style="margin:0 auto 12px;">This isn't a mockup or a wireframe. It's a full, working, production-grade redesign of the ZAPTA homepage — built specifically for this proposal.</p>
+    </div>
+
+    <div class="demo-browser reveal d1">
+      <div class="browser-bar">
+        <div class="b-dot" style="background:#ff5f56"></div>
+        <div class="b-dot" style="background:#ffbd2e"></div>
+        <div class="b-dot" style="background:#27c93f"></div>
+        <div class="browser-url">zaptatech.com · Redesign Concept by Enoch Babatunde</div>
+      </div>
+      <div class="demo-screen">
+        <img
+          src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=90"
+          alt="Dark premium tech website"
+          onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=90'"
+        >
+        <div class="demo-overlay">
+          <div class="demo-tag-sim">AI-Centric Software Development</div>
+          <div class="demo-h1-sim">We Build Software<br>That <em>Scales</em> Your<br>Business.</div>
+          <div class="demo-p-sim">From AI-powered MVPs to enterprise platforms — ZAPTA delivers custom software that drives real growth.</div>
+          <div class="demo-btns-sim">
+            <div class="demo-btn-a">Start a Project →</div>
+            <div class="demo-btn-b">View Our Work</div>
+          </div>
+        </div>
+        <!-- orbit rings decoration -->
+        <div class="demo-orbit-preview">
+          <div class="demo-orbit-ring" style="width:280px;height:280px;"></div>
+          <div class="demo-orbit-ring" style="width:190px;height:190px;border-color:rgba(0,229,160,.1)"></div>
+          <div class="demo-orbit-ring" style="width:110px;height:110px;border-color:rgba(0,229,160,.2)"></div>
+          <div class="demo-orbit-center">ZAP.</div>
+          <div class="demo-orbit-dot" style="transform:translate(-55px,-130px)">⚡</div>
+          <div class="demo-orbit-dot" style="transform:translate(75px,-95px)">🤖</div>
+          <div class="demo-orbit-dot" style="transform:translate(100px,40px)">🚀</div>
+          <div class="demo-orbit-dot" style="transform:translate(-90px,60px)">🎨</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:32px;" class="reveal d2">
+      <a href="./demo.html" target="_blank" class="btn btn-accent" style="font-size:16px;padding:16px 40px;">
+        Open Live Demo →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BEFORE / AFTER ══ -->
+<section id="comparison">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">Side by Side</div>
+      <h2 class="section-title">The Structural Shift</h2>
+      <p class="section-sub">Concrete changes that drive measurable differences in engagement, trust, and conversion.</p>
+    </div>
+    <div class="comparison-grid">
+      <div class="comp-side comp-before reveal d1">
+        <div class="comp-label before">Current System</div>
+        <h3 class="comp-heading" style="color:var(--muted)">Passive Architecture</h3>
+        <ul class="comp-list">
+          <li><span class="comp-icon neg">✕</span>Generic blue/white palette — forgettable</li>
+          <li><span class="comp-icon neg">✕</span>Static layout, no scroll animations</li>
+          <li><span class="comp-icon neg">✕</span>Empty hero right side — wasted space</li>
+          <li><span class="comp-icon neg">✕</span>Terry Peterson video hidden behind a click</li>
+          <li><span class="comp-icon neg">✕</span>Weak headline — no instant clarity</li>
+          <li><span class="comp-icon neg">✕</span>Generic template feel — indistinct from competitors</li>
+        </ul>
+      </div>
+      <div class="comp-side comp-after reveal d2">
+        <div class="comp-label after">Proposed System</div>
+        <h3 class="comp-heading">Intentional Engine</h3>
+        <ul class="comp-list">
+          <li><span class="comp-icon pos">✓</span>Premium dark brand identity — instantly distinctive</li>
+          <li><span class="comp-icon pos">✓</span>Scroll-reveal animations + floating particles</li>
+          <li><span class="comp-icon pos">✓</span>Kuda-style orbit animation — services at a glance</li>
+          <li><span class="comp-icon pos">✓</span>Auto-playing video testimonial + custom controls</li>
+          <li><span class="comp-icon pos">✓</span>Sharp, punchy headline with clear CTA path</li>
+          <li><span class="comp-icon pos">✓</span>Signature look that signals world-class AI agency</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STRATEGY ══ -->
+<section id="strategy">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">Methodology</div>
+      <h2 class="section-title">How I Build</h2>
+      <p class="section-sub">Engineering a web experience is a strategic discipline, not an aesthetic guess.</p>
+    </div>
+    <div class="strategy-grid">
+      <div class="strat-card reveal d1">
+        <div class="strat-num">Step 01</div>
+        <h3>Conversion Architecture</h3>
+        <p>Mapping user paths based on target audience behavior. Every element — headline, CTA, section order — is intentional and tested against first-impression psychology.</p>
+      </div>
+      <div class="strat-card reveal d2">
+        <div class="strat-num">Step 02</div>
+        <h3>Trust-Driven Design</h3>
+        <p>Integrating ZAPTA's real testimonials, client logos, ISO certification, and case studies into the visual flow — so social proof works before a visitor even reads a headline.</p>
+      </div>
+      <div class="strat-card reveal d3">
+        <div class="strat-num">Step 03</div>
+        <h3>Performance Engineering</h3>
+        <p>Clean semantic HTML, optimized assets, smooth 60fps animations. A site that looks premium and loads fast — scoring well on Core Web Vitals for SEO and UX.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects-sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">ZAPTA's Work</div>
+      <h2 class="section-title">Products Brought to Life</h2>
+      <p class="section-sub">Each project card in the redesign features premium imagery matched to the product's industry.</p>
+    </div>
+    <div class="projects-showcase">
+      <!-- DrBroker featured -->
+      <div class="proj-card wide reveal d1">
+        <div class="proj-img">
+          <img
+            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=90"
+            alt="DrBroker Real Estate"
+            onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=90'"
+          >
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="proj-tag">Real Estate</span><span class="proj-tag">Laravel</span><span class="proj-tag">MySQL</span></div>
+          <h3>DrBroker</h3>
+          <p>A transaction tracker for real estate professionals — ensuring smooth, transparent deals for buyers and sellers with real-time tracking and document management.</p>
+        </div>
+      </div>
+      <!-- MEtutors -->
+      <div class="proj-card reveal d2">
+        <div class="proj-img">
+          <img
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=90"
+            alt="MEtutors EdTech"
+            onerror="this.src='https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=90'"
+          >
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="proj-tag">EdTech</span><span class="proj-tag">AI-Powered</span></div>
+          <h3>MEtutors</h3>
+          <p>AI-powered platform matching students with expert tutors for personalized learning and simplified booking.</p>
+        </div>
+      </div>
+      <!-- QuickSteps -->
+      <div class="proj-card reveal d3">
+        <div class="proj-img">
+          <img
+            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=90"
+            alt="QuickSteps FinTech"
+            onerror="this.src='https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=90'"
+          >
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="proj-tag">FinTech</span><span class="proj-tag">Next.js</span></div>
+          <h3>QuickSteps</h3>
+          <p>Streamlined accounting and operations for SMBs. One centralized platform, all your numbers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA / CLOSE ══ -->
+<section id="cta">
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <div class="section-eyebrow" style="margin-bottom:24px;">Let's Work Together</div>
+      <h2>Ready to Build Something <em>Great?</em></h2>
+      <p>The redesign is already built. The concept is live. Let's discuss how I can bring this — and more — to ZAPTA's frontend team.</p>
+      <div class="cta-actions">
+        <a href="./demo.html" target="_blank" class="btn btn-accent" style="font-size:15px;padding:15px 36px;">View Live Demo →</a>
+        <a href="mailto:syedmohsin.ali@zaptatech.com" class="btn btn-outline">Send to Team →</a>
+      </div>
+      <div class="contact-bar">
+        <div class="contact-item">
+          <span class="contact-label">LinkedIn</span>
+          <a href="https://linkedin.com/in/enoch-babatunde-464751328" target="_blank" class="contact-val">enoch-babatunde</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">GitHub</span>
+          <a href="https://github.com/KingE-ops" target="_blank" class="contact-val">KingE-ops</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">Portfolio</span>
+          <a href="https://enochport.netlify.app" target="_blank" class="contact-val">enochport.netlify.app</a>
+        </div>
+        <!-- <div class="contact-item">
+          <span class="contact-label">Send Proposal to</span>
+          <a href="mailto:syedmohsin.ali@zaptatech.com" class="contact-val">syedmohsin.ali@zaptatech.com</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 Enoch Babatunde · Website Redesign Proposal for ZAPTA Technologies</div>
+    <div class="footer-note">Prepared exclusively for ZAPTA Technologies (Pvt.) Limited · Not for redistribution</div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('active'); obs.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

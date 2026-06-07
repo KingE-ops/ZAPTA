@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAPTA Technologies — Redesign Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #080B10;
+  --bg2: #0D1117;
+  --bg3: #111820;
+  --border: rgba(255,255,255,0.07);
+  --border-h: rgba(255,255,255,0.15);
+  --text: #F0EEE8;
+  --muted: #7A8494;
+  --accent: #00E5A0;
+  --accent2: #0066FF;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+h1,h2,h3,h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; height: 72px;
+  background: rgba(8,11,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-size: 20px; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta { background: var(--accent); color: #080B10; font-weight: 700; font-size: 13px; padding: 10px 24px; border: none; cursor: pointer; letter-spacing: .3px; text-decoration: none; transition: opacity .2s; }
+.nav-cta:hover { opacity: .85; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  position: relative; overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 120px 60px 80px;
+  gap: 40px;
+}
+.hero-video-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-video-bg video { width: 100%; height: 100%; object-fit: cover; opacity: .25; }
+.hero-video-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(8,11,16,.92) 45%, rgba(8,11,16,.6) 100%);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 1;
+  background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* LEFT content */
+.hero-content { position: relative; z-index: 2; max-width: 560px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.25);
+  padding: 6px 16px; margin-bottom: 32px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent);
+  animation: fadeUp .6s ease both;
+}
+.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.hero h1 { font-size: clamp(38px,4.5vw,62px); font-weight: 800; line-height: 1.08; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp .7s .1s ease both; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero p { font-size: 17px; font-weight: 400; color: var(--muted); max-width: 480px; margin-bottom: 44px; line-height: 1.75; animation: fadeUp .7s .2s ease both; }
+.hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; animation: fadeUp .7s .3s ease both; }
+
+.btn-primary { background: var(--accent); color: #080B10; font-weight: 700; font-size: 14px; padding: 14px 32px; border: none; cursor: pointer; text-decoration: none; transition: opacity .2s, transform .2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--text); font-weight: 600; font-size: 14px; padding: 13px 32px; border: 1px solid var(--border-h); cursor: pointer; text-decoration: none; transition: border-color .2s, background .2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-ghost:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.04); }
+
+/* ── ORBIT (canvas) ── */
+.hero-orbit {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  animation: fadeUp .9s .4s ease both;
+}
+.orbit-wrap {
+  position: relative;
+  width: 500px; height: 500px;
+  flex-shrink: 0;
+}
+#orbitCanvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+#orbitTip {
+  position: absolute;
+  background: #0D1117;
+  border: 1px solid rgba(0,229,160,0.3);
+  color: #F0EEE8;
+  font-size: 12px; font-weight: 600;
+  padding: 6px 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+  white-space: nowrap;
+  transform: translate(-50%, -140%);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  z-index: 10;
+}
+
+/* scroll indicator */
+.scroll-indicator {
+  position: absolute; bottom: 36px; left: 60px; z-index: 2;
+  display: flex; align-items: center; gap: 12px;
+  color: var(--muted); font-size: 11px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  animation: fadeUp 1s .8s ease both;
+}
+.scroll-line { width: 40px; height: 1px; background: var(--muted); position: relative; overflow: hidden; }
+.scroll-line::after { content: ''; position: absolute; left: -40px; top: 0; width: 40px; height: 1px; background: var(--accent); animation: scrollAnim 2s infinite; }
+@keyframes scrollAnim { 0%{left:-40px} 100%{left:40px} }
+
+/* ── STATS ── */
+.stats-bar { background: var(--bg3); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 60px; display: grid; grid-template-columns: repeat(4,1fr); }
+.stat-item { padding: 0 40px; border-right: 1px solid var(--border); }
+.stat-item:first-child { padding-left: 0; }
+.stat-item:last-child { border-right: none; }
+.stat-number { font-size: 40px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin-bottom: 6px; }
+.stat-number span { color: var(--accent); }
+.stat-label { font-size: 13px; color: var(--muted); font-weight: 400; }
+.count-up { display: inline; }
+
+/* ── MARQUEE ── */
+.marquee-section { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 20px 0; overflow: hidden; }
+.marquee-track { display: flex; gap: 60px; white-space: nowrap; animation: marquee 25s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item { display: flex; align-items: center; gap: 16px; font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .5px; flex-shrink: 0; }
+.marquee-item::before { content: '✦'; color: var(--accent); font-size: 10px; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTION commons ── */
+section { padding: 100px 60px; }
+.section-tag { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.section-title { font-size: clamp(32px,4vw,48px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+.section-sub { font-size: 17px; color: var(--muted); font-weight: 400; max-width: 500px; line-height: 1.7; }
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── SERVICES ── */
+.services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; flex-wrap: wrap; gap: 32px; }
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.service-card { background: var(--bg2); padding: 40px 36px; position: relative; overflow: hidden; transition: background .3s; cursor: pointer; }
+.service-card:hover { background: var(--bg3); }
+.service-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .35s; }
+.service-card:hover::after { transform: scaleX(1); }
+.service-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
+.service-icon { font-size: 28px; margin-bottom: 20px; display: block; transition: transform .3s; }
+.service-card:hover .service-icon { transform: scale(1.15) rotate(-5deg); }
+.service-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 12px; }
+.service-card p { font-size: 14px; color: var(--muted); font-weight: 400; line-height: 1.7; }
+.service-arrow { position: absolute; top: 36px; right: 36px; color: var(--muted); font-size: 20px; transition: color .2s, transform .2s; }
+.service-card:hover .service-arrow { color: var(--accent); transform: translate(3px,-3px); }
+
+/* ── TESTIMONIALS ── */
+.testimonial-section { background: var(--bg3); }
+.testimonial-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.video-player-box { position: relative; background: var(--bg2); border: 1px solid var(--border-h); overflow: hidden; cursor: pointer; aspect-ratio: 16/9; }
+.video-player-box video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-controls { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px 12px; background: linear-gradient(transparent, rgba(0,0,0,.85)); display: flex; align-items: center; gap: 14px; opacity: 0; transition: opacity .3s; }
+.video-player-box:hover .video-controls, .video-player-box.controls-on .video-controls { opacity: 1; }
+.ctrl-btn { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; transition: background .2s; flex-shrink: 0; }
+.ctrl-btn:hover { background: rgba(255,255,255,.25); }
+.progress-wrap { flex: 1; height: 3px; background: rgba(255,255,255,.2); border-radius: 2px; cursor: pointer; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0%; transition: width .2s linear; }
+.time-label { font-size: 11px; color: rgba(255,255,255,.7); white-space: nowrap; }
+.muted-badge { position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,.7); border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.8); font-size: 11px; font-weight: 600; padding: 5px 12px; display: flex; align-items: center; gap: 6px; pointer-events: none; }
+.muted-badge.hidden { display: none; }
+.play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.2); transition: opacity .3s; }
+.play-overlay.hidden { opacity: 0; pointer-events: none; }
+.play-circle { width: 64px; height: 64px; background: rgba(0,229,160,.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #080B10; transition: transform .2s; }
+.play-circle:hover { transform: scale(1.1); }
+.testimonial-quote { display: flex; flex-direction: column; justify-content: center; }
+.quote-mark { font-size: 80px; font-weight: 800; color: var(--accent); line-height: .8; margin-bottom: 24px; opacity: .4; }
+.testimonial-quote blockquote { font-size: 19px; line-height: 1.7; font-weight: 400; color: var(--text); margin-bottom: 32px; }
+.testimonial-author { display: flex; align-items: center; gap: 14px; }
+.author-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0,229,160,.3); }
+.author-info { display: flex; flex-direction: column; gap: 2px; }
+.author-name { font-size: 15px; font-weight: 700; }
+.author-role { font-size: 13px; color: var(--muted); }
+.more-testimonials { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 60px; }
+.test-card { background: var(--bg2); padding: 32px 28px; }
+.stars { color: var(--accent); font-size: 13px; letter-spacing: 2px; margin-bottom: 16px; }
+.test-card blockquote { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.test-author { display: flex; align-items: center; gap: 10px; }
+.test-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(0,229,160,.1); border: 1px solid rgba(0,229,160,.2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: var(--accent); }
+.test-author-name { font-size: 13px; font-weight: 700; }
+.test-author-role { font-size: 11px; color: var(--muted); }
+
+/* ── PROJECTS ── */
+.projects-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; margin-top: 60px; }
+.project-card { background: var(--bg2); border: 1px solid var(--border); overflow: hidden; transition: border-color .3s, transform .3s; cursor: pointer; }
+.project-card:hover { border-color: var(--border-h); transform: translateY(-4px); }
+.project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
+.project-img { aspect-ratio: 16/9; overflow: hidden; }
+.project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; filter: brightness(.8); }
+.project-card:hover .project-img img { transform: scale(1.05); }
+.project-img-featured { aspect-ratio: 4/3; overflow: hidden; }
+.project-img-featured img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; filter: brightness(.7); }
+.project-card:hover .project-img-featured img { transform: scale(1.05); }
+.project-body { padding: 32px; }
+.project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.tag { font-size: 11px; font-weight: 500; padding: 4px 12px; background: rgba(255,255,255,.05); border: 1px solid var(--border); color: var(--muted); }
+.project-card h3 { font-size: 22px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 10px; }
+.project-card p { font-size: 14px; color: var(--muted); font-weight: 400; line-height: 1.7; }
+.project-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; color: var(--accent); font-size: 13px; font-weight: 700; text-decoration: none; letter-spacing: .3px; transition: gap .2s; }
+.project-link:hover { gap: 12px; }
+
+/* ── PROCESS ── */
+.process-section { background: var(--bg3); }
+.process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.process-steps { display: flex; flex-direction: column; }
+.process-step { display: flex; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left .2s; }
+.process-step:first-child { border-top: 1px solid var(--border); }
+.process-step:hover { padding-left: 8px; }
+.step-num { font-size: 12px; font-weight: 700; color: var(--accent); min-width: 32px; letter-spacing: 1px; padding-top: 3px; }
+.step-content h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; letter-spacing: -.3px; }
+.step-content p { font-size: 13px; color: var(--muted); font-weight: 400; }
+.process-visual-wrap { position: sticky; top: 100px; }
+.process-img { width: 100%; border: 1px solid var(--border); filter: brightness(.7) saturate(.8); transition: filter .3s, opacity .2s; }
+.process-img:hover { filter: brightness(.9) saturate(1); }
+
+/* ── CTA ── */
+.cta-section { background: var(--bg3); border-top: 1px solid var(--border); text-align: center; padding: 120px 60px; position: relative; overflow: hidden; }
+.cta-glow { position: absolute; width: 600px; height: 400px; background: radial-gradient(circle, rgba(0,229,160,.06) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+.cta-section h2 { font-size: clamp(36px,5vw,64px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; position: relative; z-index: 1; line-height: 1.05; }
+.cta-section h2 em { font-style: normal; color: var(--accent); }
+.cta-section p { font-size: 18px; color: var(--muted); font-weight: 400; margin-bottom: 48px; position: relative; z-index: 1; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+
+/* ── FOOTER ── */
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60px 60px 40px; }
+.footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+.footer-brand p { font-size: 14px; color: var(--muted); font-weight: 400; margin-top: 16px; line-height: 1.7; }
+.footer-col h4 { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color .2s; font-weight: 400; }
+.footer-links a:hover { color: var(--text); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; }
+.footer-bottom p { font-size: 13px; color: var(--muted); font-weight: 400; }
+.footer-socials { display: flex; gap: 12px; }
+.social-link { width: 36px; height: 36px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; font-size: 13px; transition: border-color .2s, color .2s; }
+.social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+.redesign-watermark { position: fixed; bottom: 20px; right: 20px; background: rgba(0,229,160,.1); border: 1px solid rgba(0,229,160,.25); padding: 8px 16px; font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1px; z-index: 999; }
+
+#particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+@media (max-width: 1100px) {
+  .orbit-scene { width: 380px; height: 380px; }
+  .orbit-ring-3 { width: 320px; height: 320px; }
+  .orbit-ring-4 { width: 380px; height: 380px; }
+}
+
+@media (max-width: 900px) {
+  nav { padding: 0 24px; } .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 120px 24px 80px; }
+  .hero-orbit { display: none; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); padding: 40px 24px; }
+  section { padding: 72px 24px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .testimonial-layout { grid-template-columns: 1fr; }
+  .more-testimonials { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: auto; grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .cta-section { padding: 80px 24px; }
+  footer { padding: 60px 24px 40px; }
+  .scroll-indicator { display: none; }
+}
+
+/* ── PROJECTS SLIDESHOW ── */
+.slideshow-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* main slide */
+.slideshow-track { position: relative; width: 100%; }
+
+.slide {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  animation: slideFadeIn .5s ease;
+}
+.slide.active { display: grid; }
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.slide-img {
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+}
+.slide-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .7s ease;
+  filter: brightness(.75);
+}
+.slide:hover .slide-img img { transform: scale(1.04); filter: brightness(.85); }
+
+.slide-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 60%, rgba(8,11,16,.8) 100%);
+}
+
+.slide-content {
+  background: var(--bg2);
+  padding: 56px 52px;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 20px;
+  border-left: 1px solid var(--border);
+}
+
+.slide-meta {
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+
+.slide-num {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; color: var(--muted);
+  text-transform: uppercase;
+}
+
+.slide-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.stag {
+  font-size: 11px; font-weight: 500;
+  padding: 3px 10px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.slide-title {
+  font-size: clamp(28px,3.5vw,44px);
+  font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+  color: var(--text);
+}
+
+.slide-desc {
+  font-size: 15px; color: var(--muted);
+  font-weight: 400; line-height: 1.75;
+  max-width: 420px;
+}
+
+.slide-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--accent); font-size: 13px;
+  font-weight: 700; text-decoration: none;
+  letter-spacing: .3px; transition: gap .2s;
+  margin-top: 8px; width: fit-content;
+}
+.slide-link:hover { gap: 14px; }
+
+/* CONTROLS ROW */
+.slideshow-controls {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 16px;
+}
+
+.slide-dots { display: flex; gap: 10px; }
+.slide-dot {
+  width: 28px; height: 3px;
+  background: var(--border-h);
+  border: none; cursor: pointer;
+  transition: background .25s, width .25s;
+  padding: 0;
+}
+.slide-dot.active {
+  background: var(--accent);
+  width: 48px;
+}
+
+.slide-arrows { display: flex; gap: 8px; }
+.slide-arrow {
+  width: 44px; height: 44px;
+  background: var(--bg2);
+  border: 1px solid var(--border-h);
+  color: var(--text); font-size: 18px;
+  cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.slide-arrow:hover {
+  background: var(--bg3);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* THUMBNAIL STRIP */
+.slide-thumbs {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+}
+.slide-thumb {
+  position: relative; overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: border-color .25s;
+}
+.slide-thumb.active { border-color: var(--accent); }
+.slide-thumb img {
+  width: 100%; aspect-ratio: 16/9;
+  object-fit: cover; display: block;
+  filter: brightness(.5) saturate(.7);
+  transition: filter .3s;
+}
+.slide-thumb.active img,
+.slide-thumb:hover img { filter: brightness(.8) saturate(1); }
+
+.thumb-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 6px 10px;
+  background: rgba(8,11,16,.85);
+  font-size: 11px; font-weight: 700;
+  color: var(--muted);
+  transition: color .25s;
+}
+.slide-thumb.active .thumb-label { color: var(--accent); }
+
+/* mobile */
+@media (max-width: 900px) {
+  .slide { grid-template-columns: 1fr; }
+  .slide-img { min-height: 240px; }
+  .slide-img-overlay { background: linear-gradient(to bottom, transparent 50%, rgba(8,11,16,.9) 100%); }
+  .slide-content { padding: 32px 24px; }
+  .slide-thumbs { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<nav>
+  <a href="#" class="nav-logo">ZAPTA<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Call →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-video-bg">
+    <video autoplay muted loop playsinline>
+      <source src="./images/27091-361827476_medium.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-grid"></div>
+
+  <!-- LEFT: text -->
+  <div class="hero-content">
+    <div class="hero-badge">AI-Centric Software Development</div>
+    <h1>We Build Software<br>That <em>Scales</em> Your<br>Business.</h1>
+    <p>From AI-powered MVPs to enterprise platforms — ZAPTA delivers custom software that drives real growth, shipped fast and with precision.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start a Project →</a>
+      <a href="#projects" class="btn-ghost">View Our Work</a>
+    </div>
+  </div>
+
+  <!-- RIGHT: orbit animation (canvas) -->
+  <div class="hero-orbit">
+    <div class="orbit-wrap">
+      <canvas id="orbitCanvas" width="500" height="500"></canvas>
+      <div id="orbitTip"></div>
+    </div>
+  </div><!-- /hero-orbit -->
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Custom Software</div>
+    <div class="marquee-item">AI / ML Applications</div>
+    <div class="marquee-item">Web Development</div>
+    <div class="marquee-item">Mobile Apps</div>
+    <div class="marquee-item">UI / UX Design</div>
+    <div class="marquee-item">MVP Development</div>
+    <div class="marquee-item">Dedicated Teams</div>
+    <div class="marquee-item">Product Scope</div>
+    <div class="marquee-item">ISO Certified</div>
+    <div class="marquee-item">Custom Software</div>
+    <div class="marquee-item">AI / ML Applications</div>
+    <div class="marquee-item">Web Development</div>
+    <div class="marquee-item">Mobile Apps</div>
+    <div class="marquee-item">UI / UX Design</div>
+    <div class="marquee-item">MVP Development</div>
+    <div class="marquee-item">Dedicated Teams</div>
+    <div class="marquee-item">Product Scope</div>
+    <div class="marquee-item">ISO Certified</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-number"><span class="count-up" data-target="150">0</span><span>+</span></div>
+    <div class="stat-label">Projects Delivered</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-number"><span class="count-up" data-target="8">0</span><span>+</span></div>
+    <div class="stat-label">Industry Verticals</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-number"><span class="count-up" data-target="98">0</span><span>%</span></div>
+    <div class="stat-label">Client Satisfaction</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-number">ISO</div>
+    <div class="stat-label">9001:2015 Certified</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-tag">What We Do</div>
+      <h2 class="section-title">End-to-End<br>Digital Solutions</h2>
+    </div>
+    <p class="section-sub">From concept to deployment — every layer of your product, handled by experts.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <span class="service-icon">⚡</span>
+      <h3>Web Development</h3>
+      <p>Scalable, performant web apps built with modern stacks — React, Next.js, Angular, and beyond.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <span class="service-icon">📱</span>
+      <h3>Mobile Development</h3>
+      <p>Native and cross-platform mobile apps for iOS and Android that users actually love.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <span class="service-icon">🎨</span>
+      <h3>UI / UX Design</h3>
+      <p>Interfaces that convert. We design with Figma, Framer, and Webflow — precision at every pixel.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <span class="service-icon">🤖</span>
+      <h3>AI / ML Applications</h3>
+      <p>LLMs, chatbots, computer vision, NLP — we embed cutting-edge AI into your product workflow.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <span class="service-icon">🚀</span>
+      <h3>MVP Development</h3>
+      <p>Go from idea to working product fast. Agile-first builds that minimize cost and maximize learning.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">06</div>
+      <span class="service-icon">👥</span>
+      <h3>Dedicated Teams</h3>
+      <p>Extend your team with our senior engineers, designers, and PMs. Fully dedicated. Fully yours.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="testimonial-section">
+  <div class="section-tag reveal">From The Top</div>
+  <h2 class="section-title reveal" style="margin-bottom:60px;">Hear From<br>Our CEO</h2>
+  <div class="testimonial-layout">
+    <div class="video-player-box reveal" id="videoBox">
+      <video id="clientVideo" autoplay muted loop playsinline>
+        <source src="./images/ZAPTA Technologies- Custom Software Development Services.mp4" type="video/mp4">
+        <source src="https://player.vimeo.com/external/368362458.hd.mp4?s=a40adfc2290cf2d9e1a5c3ba2dba7e5a9bb83bf4&profile_id=174" type="video/mp4">
+      </video>
+      <div class="muted-badge" id="mutedBadge">🔇 Click for sound</div>
+      <div class="play-overlay hidden" id="playOverlay"><div class="play-circle">▶</div></div>
+      <div class="video-controls" id="videoControls">
+        <button class="ctrl-btn" id="playPauseBtn">⏸</button>
+        <button class="ctrl-btn" id="muteBtn">🔇</button>
+        <div class="progress-wrap" id="progressWrap"><div class="progress-fill" id="progressFill"></div></div>
+        <span class="time-label" id="timeLabel">0:00 / 0:52</span>
+        <button class="ctrl-btn" id="fullscreenBtn">⛶</button>
+      </div>
+    </div>
+    <div class="testimonial-quote reveal">
+      <div class="quote-mark">"</div>
+      <blockquote>At ZAPTA, we don't just deliver code — we deliver commitment. Our team's attention to detail and consistency on every engagement is what sets us apart. Quality and trust aren't negotiable for us.</blockquote>
+      <div class="testimonial-author">
+        <img src="https://zaptatech.com/frontend-assets/images/teri.webp" alt="Terry Peterson" class="author-avatar" onerror="this.style.display='none'">
+        <div class="author-info">
+          <span class="author-name">Terry Peterson</span>
+          <span class="author-role">CEO, ZAPTA Technologies</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="more-testimonials reveal">
+    <div class="test-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"Fresh thinking on both technology and design. Daily progress updates made everything transparent and stress-free."</blockquote>
+      <div class="test-author">
+        <img src="https://zaptatech.com/frontend-assets/images/icons/nick.png" alt="Nick" class="author-avatar" style="width:36px;height:36px;" onerror="this.outerHTML='<div class=&quot;test-avatar&quot;>NK</div>'">
+        <div><div class="test-author-name">Nick Kuijpers</div><div class="test-author-role">Founder, WEMASY</div></div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"30% more engagement, 20% reduction in operating costs since launch. Strong UX thinking with disciplined execution."</blockquote>
+      <div class="test-author">
+        <img src="https://zaptatech.com/frontend-assets/images/icons/adeola.png" alt="Adeola" class="author-avatar" style="width:36px;height:36px;" onerror="this.outerHTML='<div class=&quot;test-avatar&quot;>AF</div>'">
+        <div><div class="test-author-name">Adeola Folarin</div><div class="test-author-role">Co-Founder, Kena Technologies</div></div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"30% increase in online sales, 50% rise in traffic within the first quarter. Impact was clear from week one."</blockquote>
+      <div class="test-author">
+        <img src="./images/download.png" alt="Mitch" class="author-avatar" style="width:36px;height:36px;" onerror="this.outerHTML='<div class=&quot;test-avatar&quot;>MM</div>'">
+        <div><div class="test-author-name">Mitch M.</div><div class="test-author-role">ThinkBeforeSport</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-tag reveal">Our Work</div>
+  <h2 class="section-title reveal">Products We've<br>Brought to Life</h2>
+  <p class="section-sub reveal" style="margin-bottom:60px;">Premium software built for real industries — from real estate to AI-powered EdTech.</p>
+
+  <!-- SLIDESHOW WRAPPER -->
+  <div class="slideshow-wrap reveal">
+
+    <!-- TRACK -->
+    <div class="slideshow-track" id="slideshowTrack">
+
+      <!-- SLIDE 1: DrBroker -->
+      <div class="slide active">
+        <div class="slide-img">
+          <img
+            src="./images/luke-chesser-JKUTrJ4vK00-unsplash.jpg"
+            alt="DrBroker"
+            onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1400&q=90'"
+          >
+          <div class="slide-img-overlay"></div>
+        </div>
+        <div class="slide-content">
+          <div class="slide-meta">
+            <span class="slide-num">01 / 04</span>
+            <div class="slide-tags">
+              <span class="stag">Real Estate</span>
+              <span class="stag">Laravel</span>
+              <span class="stag">MySQL</span>
+            </div>
+          </div>
+          <h3 class="slide-title">DrBroker</h3>
+          <p class="slide-desc">A transaction tracker for real estate professionals — ensuring smooth, transparent deals for buyers and sellers with real-time status tracking and document management.</p>
+          <a href="https://zaptatech.com/projects/drbroker-2" target="_blank" class="slide-link">View Case Study →</a>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: MEtutors -->
+      <div class="slide">
+        <div class="slide-img">
+          <img
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=90"
+            alt="MEtutors"
+            onerror="this.src='https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=90'"
+          >
+          <div class="slide-img-overlay"></div>
+        </div>
+        <div class="slide-content">
+          <div class="slide-meta">
+            <span class="slide-num">02 / 04</span>
+            <div class="slide-tags">
+              <span class="stag">EdTech</span>
+              <span class="stag">AI-Powered</span>
+              <span class="stag">Angular</span>
+            </div>
+          </div>
+          <h3 class="slide-title">MEtutors</h3>
+          <p class="slide-desc">AI-powered platform matching students with expert tutors for personalized learning and simplified booking — used by thousands of learners globally.</p>
+          <a href="https://zaptatech.com/projects/metutors" target="_blank" class="slide-link">View Case Study →</a>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: QuickSteps -->
+      <div class="slide">
+        <div class="slide-img">
+          <img
+            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=90"
+            alt="QuickSteps"
+            onerror="this.src='https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1400&q=90'"
+          >
+          <div class="slide-img-overlay"></div>
+        </div>
+        <div class="slide-content">
+          <div class="slide-meta">
+            <span class="slide-num">03 / 04</span>
+            <div class="slide-tags">
+              <span class="stag">FinTech</span>
+              <span class="stag">Next.js</span>
+              <span class="stag">NestJS</span>
+            </div>
+          </div>
+          <h3 class="slide-title">QuickSteps</h3>
+          <p class="slide-desc">Streamlined accounting and operations management for SMBs. One centralized platform for all your financial data, reports, and team workflows.</p>
+          <a href="https://zaptatech.com/projects/quicksteps" target="_blank" class="slide-link">View Case Study →</a>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Lahebo -->
+      <div class="slide">
+        <div class="slide-img">
+          <img
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=90"
+            alt="Lahebo"
+            onerror="this.src='https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=90'"
+          >
+          <div class="slide-img-overlay"></div>
+        </div>
+        <div class="slide-content">
+          <div class="slide-meta">
+            <span class="slide-num">04 / 04</span>
+            <div class="slide-tags">
+              <span class="stag">Compliance</span>
+              <span class="stag">Vue.js</span>
+              <span class="stag">Stripe</span>
+            </div>
+          </div>
+          <h3 class="slide-title">Lahebo</h3>
+          <p class="slide-desc">Governance, Risk, and Compliance management in one unified platform — enhancing organisational visibility and reducing audit overhead across all processes.</p>
+          <a href="https://zaptatech.com/projects/lahebo" target="_blank" class="slide-link">View Case Study →</a>
+        </div>
+      </div>
+
+    </div><!-- /track -->
+
+    <!-- CONTROLS -->
+    <div class="slideshow-controls">
+      <!-- thumbnail dots -->
+      <div class="slide-dots">
+        <button class="slide-dot active" data-index="0"></button>
+        <button class="slide-dot" data-index="1"></button>
+        <button class="slide-dot" data-index="2"></button>
+        <button class="slide-dot" data-index="3"></button>
+      </div>
+      <!-- prev / next -->
+      <div class="slide-arrows">
+        <button class="slide-arrow" id="slidePrev">←</button>
+        <button class="slide-arrow" id="slideNext">→</button>
+      </div>
+    </div>
+
+    <!-- THUMBNAIL STRIP -->
+    <div class="slide-thumbs">
+      <div class="slide-thumb active" data-index="0">
+        <img src="./images/luke-chesser-JKUTrJ4vK00-unsplash.jpg" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80'" alt="DrBroker">
+        <div class="thumb-label">DrBroker</div>
+      </div>
+      <div class="slide-thumb" data-index="1">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=300&q=80" alt="MEtutors">
+        <div class="thumb-label">MEtutors</div>
+      </div>
+      <div class="slide-thumb" data-index="2">
+        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=300&q=80" alt="QuickSteps">
+        <div class="thumb-label">QuickSteps</div>
+      </div>
+      <div class="slide-thumb" data-index="3">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=300&q=80" alt="Lahebo">
+        <div class="thumb-label">Lahebo</div>
+      </div>
+    </div>
+
+  </div><!-- /slideshow-wrap -->
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="process-section">
+  <div class="section-tag reveal">How We Work</div>
+  <h2 class="section-title reveal" style="margin-bottom:60px;">A Process Built<br>for Results</h2>
+  <div class="process-grid">
+    <div class="process-steps">
+      <div class="process-step reveal"><div class="step-num">01</div><div class="step-content"><h4>Project Planning & Strategy</h4><p>Roadmap, roles, environment setup (Jira, GitHub etc.)</p></div></div>
+      <div class="process-step reveal"><div class="step-num">02</div><div class="step-content"><h4>Analysis & Documentation</h4><p>Requirements, backlog, architecture and process modelling.</p></div></div>
+      <div class="process-step reveal"><div class="step-num">03</div><div class="step-content"><h4>Design & Prototyping</h4><p>User flows, low-fi wireframes, and high-fidelity prototypes.</p></div></div>
+      <div class="process-step reveal"><div class="step-num">04</div><div class="step-content"><h4>Implementation & QA</h4><p>Full-stack development with parallel quality assurance.</p></div></div>
+      <div class="process-step reveal"><div class="step-num">05</div><div class="step-content"><h4>Deployment & Support</h4><p>Live deployment, training, SEO, ongoing maintenance.</p></div></div>
+    </div>
+    <div class="process-visual-wrap reveal">
+      <img class="process-img" src="./images/sayyam-abbasi-mdnIXfPTVKo-unsplash.svg" alt="Process" id="processImg">
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="section-tag reveal" style="margin-bottom:24px;">Let's Work Together</div>
+  <h2 class="reveal">Ready to Build<br>Something <em>Great</em>?</h2>
+  <p class="reveal">Book a free 30-minute consultation. No pitch decks, just honest conversation.</p>
+  <div class="cta-actions reveal">
+    <a href="mailto:contact@zaptatech.com" class="btn-primary">Book a Free Call →</a>
+    <a href="mailto:contact@zaptatech.com" class="btn-ghost">contact@zaptatech.com</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div style="font-size:22px;font-weight:800;">ZAPTA<span style="color:var(--accent);">.</span></div>
+      <p>AI-centric custom software development. Turning your vision into reality with premium solutions.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul class="footer-links">
+        <li><a href="#">Web Development</a></li>
+        <li><a href="#">Mobile Development</a></li>
+        <li><a href="#">UI / UX Design</a></li>
+        <li><a href="#">AI / ML Applications</a></li>
+        <li><a href="#">MVP Development</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul class="footer-links">
+        <li><a href="tel:+17372775447">+1 (737) 277 5447</a></li>
+        <li><a href="mailto:contact@zaptatech.com">contact@zaptatech.com</a></li>
+        <li><a href="#">Houston, Texas USA</a></li>
+        <li><a href="#">Lahore, Pakistan</a></li>
+        <li><a href="#">Manchester, UK</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 ZAPTA Technologies (Pvt.) Limited. All rights reserved.</p>
+    <div class="footer-socials">
+      <a href="https://www.linkedin.com/company/zaptatech/" class="social-link" target="_blank">in</a>
+      <a href="https://www.facebook.com/zaptatech" class="social-link" target="_blank">f</a>
+      <a href="https://twitter.com/zaptatech" class="social-link" target="_blank">𝕏</a>
+      <a href="https://www.youtube.com/@ZAPTATechnologies" class="social-link" target="_blank">▶</a>
+    </div>
+  </div>
+</footer>
+
+<div class="redesign-watermark">✦ REDESIGN CONCEPT</div>
+
+<script>
+/* PARTICLES */
+(function(){
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, pts = [];
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  for(let i=0;i<60;i++) pts.push({ x:Math.random()*2000, y:Math.random()*2000, r:Math.random()*1.5+.3, vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3, o:Math.random()*.4+.05 });
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=`rgba(0,229,160,${p.o})`; ctx.fill(); });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* SCROLL REVEAL */
+(function(){
+  const obs = new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+})();
+
+/* COUNT UP */
+(function(){
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const el=e.target, target=parseInt(el.dataset.target); let cur=0;
+        const step=target/60;
+        const t=setInterval(()=>{ cur=Math.min(cur+step,target); el.textContent=Math.round(cur); if(cur>=target)clearInterval(t); },16);
+        obs.unobserve(el);
+      }
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.count-up').forEach(el=>obs.observe(el));
+})();
+
+/* VIDEO PLAYER */
+(function(){
+  const video=document.getElementById('clientVideo');
+  const box=document.getElementById('videoBox');
+  const mutedBadge=document.getElementById('mutedBadge');
+  const playOverlay=document.getElementById('playOverlay');
+  const playPauseBtn=document.getElementById('playPauseBtn');
+  const muteBtn=document.getElementById('muteBtn');
+  const progressFill=document.getElementById('progressFill');
+  const progressWrap=document.getElementById('progressWrap');
+  const timeLabel=document.getElementById('timeLabel');
+  const fullscreenBtn=document.getElementById('fullscreenBtn');
+  if(!video) return;
+  function fmt(s){ const m=Math.floor(s/60),sec=Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
+  box.addEventListener('click',function(e){
+    if(e.target.closest('.ctrl-btn')||e.target.closest('.progress-wrap')) return;
+    if(video.muted){ video.muted=false; mutedBadge.classList.add('hidden'); muteBtn.textContent='🔊'; box.classList.add('controls-on'); }
+    else { video.paused?video.play():video.pause(); }
+  });
+  playPauseBtn.addEventListener('click',e=>{ e.stopPropagation(); video.paused?video.play():video.pause(); });
+  muteBtn.addEventListener('click',e=>{ e.stopPropagation(); video.muted=!video.muted; muteBtn.textContent=video.muted?'🔇':'🔊'; if(!video.muted)mutedBadge.classList.add('hidden'); });
+  video.addEventListener('timeupdate',()=>{ if(!video.duration)return; progressFill.style.width=(video.currentTime/video.duration*100)+'%'; timeLabel.textContent=fmt(video.currentTime)+' / '+fmt(video.duration); });
+  progressWrap.addEventListener('click',e=>{ e.stopPropagation(); const r=progressWrap.getBoundingClientRect(); video.currentTime=((e.clientX-r.left)/r.width)*video.duration; });
+  video.addEventListener('play',()=>{ playPauseBtn.textContent='⏸'; playOverlay.classList.add('hidden'); });
+  video.addEventListener('pause',()=>{ playPauseBtn.textContent='▶'; playOverlay.classList.remove('hidden'); });
+  fullscreenBtn.addEventListener('click',e=>{ e.stopPropagation(); if(box.requestFullscreen)box.requestFullscreen(); });
+})();
+
+/* PROCESS IMAGE SWAP */
+(function(){
+  const steps=document.querySelectorAll('.process-step');
+  const imgs=['./images/sayyam-abbasi-VJjQo_zyr7Q-unsplash.svg','./images/alghozy-0_ZaIUL03x0-unsplash.svg','./images/sayyam-abbasi-mdnIXfPTVKo-unsplash.svg','./images/salman-ahmad-felR0PqEqLM-unsplash.svg','./images/vectorelements-IpkpFXQpqCI-unsplash.svg'];
+  const processImg=document.getElementById('processImg');
+  if(!processImg) return;
+  processImg.style.transition='opacity .2s';
+  steps.forEach((step,i)=>{ step.addEventListener('mouseenter',()=>{ if(imgs[i]){ processImg.style.opacity='0'; setTimeout(()=>{ processImg.src=imgs[i]; processImg.style.opacity='1'; },200); } }); });
+})();
+
+/* ── ORBIT CANVAS ── */
+(function(){
+  const canvas = document.getElementById('orbitCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 500, H = 500;
+  const cx = W/2, cy = H/2;
+
+  const services = [
+    { icon:'⚡', label:'Web Dev',  full:'Web Development',      ring:0, angleOffset:0 },
+    { icon:'📱', label:'Mobile',   full:'Mobile Development',   ring:0, angleOffset:Math.PI },
+    { icon:'🤖', label:'AI / ML',  full:'AI / ML Applications', ring:1, angleOffset:Math.PI/4 },
+    { icon:'🎨', label:'UI / UX',  full:'UI / UX Design',       ring:1, angleOffset:Math.PI+Math.PI/4 },
+    { icon:'🚀', label:'MVP Dev',  full:'MVP Development',      ring:2, angleOffset:Math.PI*1.5 },
+    { icon:'👥', label:'Teams',    full:'Dedicated Teams',      ring:2, angleOffset:Math.PI/2 },
+  ];
+
+  const rings = [
+    { r:90,  speed:0.008,  angle:0 },
+    { r:155, speed:-0.005, angle:0 },
+    { r:215, speed:0.003,  angle:0 },
+  ];
+
+  const ICON_R = 30;
+  const tip = document.getElementById('orbitTip');
+  let hoveredService = null, mouseX = -999, mouseY = -999, glowT = 0;
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    rings.forEach(r=>{ r.angle += r.speed; });
+    glowT += 0.02;
+
+    // center glow pulse
+    const glowAlpha = 0.06 + Math.sin(glowT)*0.04;
+    const glowR = 80 + Math.sin(glowT)*15;
+    const glow = ctx.createRadialGradient(cx,cy,0,cx,cy,glowR);
+    glow.addColorStop(0,`rgba(0,229,160,${glowAlpha*3})`);
+    glow.addColorStop(1,'rgba(0,229,160,0)');
+    ctx.beginPath(); ctx.arc(cx,cy,glowR,0,Math.PI*2);
+    ctx.fillStyle=glow; ctx.fill();
+
+    // rings
+    rings.forEach((ring,i)=>{
+      ctx.beginPath(); ctx.arc(cx,cy,ring.r,0,Math.PI*2);
+      ctx.strokeStyle = i===0?'rgba(0,229,160,0.18)':i===1?'rgba(0,229,160,0.10)':'rgba(0,229,160,0.06)';
+      ctx.lineWidth=1; ctx.setLineDash([4,8]); ctx.stroke(); ctx.setLineDash([]);
+    });
+    // outer decorative
+    ctx.beginPath(); ctx.arc(cx,cy,245,0,Math.PI*2);
+    ctx.strokeStyle='rgba(0,229,160,0.03)'; ctx.lineWidth=1; ctx.stroke();
+
+    // compute positions
+    const positions = services.map(s=>{
+      const ring = rings[s.ring];
+      const angle = ring.angle + s.angleOffset;
+      return { ...s, x: cx+Math.cos(angle)*ring.r, y: cy+Math.sin(angle)*ring.r };
+    });
+
+    // connector lines for hovered
+    positions.forEach(s=>{
+      if(hoveredService && hoveredService.full===s.full){
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(s.x,s.y);
+        const grad=ctx.createLinearGradient(cx,cy,s.x,s.y);
+        grad.addColorStop(0,'rgba(0,229,160,0.4)');
+        grad.addColorStop(1,'rgba(0,229,160,0)');
+        ctx.strokeStyle=grad; ctx.lineWidth=1; ctx.stroke();
+      }
+    });
+
+    // draw icons
+    positions.forEach(s=>{
+      const isHovered = hoveredService && hoveredService.full===s.full;
+      const scale = isHovered ? 1.2 : 1;
+      const r = ICON_R * scale;
+      ctx.save(); ctx.translate(s.x, s.y);
+      if(isHovered){ ctx.shadowColor='rgba(0,229,160,0.6)'; ctx.shadowBlur=20; }
+      ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2);
+      ctx.fillStyle = isHovered?'rgba(0,229,160,0.15)':'rgba(13,17,23,0.95)';
+      ctx.fill();
+      ctx.strokeStyle = isHovered?'rgba(0,229,160,0.7)':'rgba(0,229,160,0.2)';
+      ctx.lineWidth = isHovered?1.5:1; ctx.stroke();
+      ctx.shadowBlur=0;
+      ctx.font=`${18*scale}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(s.icon, 0, -4);
+      ctx.font=`700 ${6.5*scale}px 'Plus Jakarta Sans',sans-serif`;
+      ctx.fillStyle = isHovered?'#00E5A0':'#7A8494';
+      ctx.fillText(s.label.toUpperCase(), 0, 13*scale);
+      ctx.restore();
+    });
+
+    // center hub
+    ctx.beginPath(); ctx.arc(cx,cy,50,0,Math.PI*2);
+    const hubGrad=ctx.createRadialGradient(cx,cy,0,cx,cy,50);
+    hubGrad.addColorStop(0,'rgba(0,229,160,0.18)');
+    hubGrad.addColorStop(1,'rgba(0,229,160,0.04)');
+    ctx.fillStyle=hubGrad; ctx.fill();
+    ctx.strokeStyle='rgba(0,229,160,0.4)'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.font="bold 15px 'Plus Jakarta Sans',sans-serif";
+    ctx.fillStyle='#F0EEE8'; ctx.fillText('ZAPTA', cx-5, cy-7);
+    ctx.fillStyle='#00E5A0'; ctx.fillText('.', cx+22, cy-7);
+    ctx.font="600 8px 'Plus Jakarta Sans',sans-serif";
+    ctx.fillStyle='#7A8494'; ctx.fillText('TECH', cx, cy+8);
+
+    // hover detection
+    hoveredService = null;
+    positions.forEach(s=>{
+      if(Math.hypot(mouseX-s.x, mouseY-s.y) < ICON_R*1.3){
+        hoveredService = s;
+        if(tip){ tip.style.opacity='1'; tip.style.left=s.x+'px'; tip.style.top=s.y+'px'; tip.textContent=s.full; }
+        canvas.style.cursor='pointer';
+      }
+    });
+    if(!hoveredService){ if(tip) tip.style.opacity='0'; canvas.style.cursor='default'; }
+    requestAnimationFrame(draw);
+  }
+
+  canvas.addEventListener('mousemove', e=>{
+    const rect=canvas.getBoundingClientRect();
+    mouseX=(e.clientX-rect.left)*(canvas.width/rect.width);
+    mouseY=(e.clientY-rect.top)*(canvas.height/rect.height);
+  });
+  canvas.addEventListener('mouseleave',()=>{ mouseX=-999; mouseY=-999; });
+  draw();
+})();
+
+
+/* SLIDESHOW */
+(function(){
+  const slides   = document.querySelectorAll('.slide');
+  const dots     = document.querySelectorAll('.slide-dot');
+  const thumbs   = document.querySelectorAll('.slide-thumb');
+  const prevBtn  = document.getElementById('slidePrev');
+  const nextBtn  = document.getElementById('slideNext');
+  let current = 0;
+  let autoTimer;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    thumbs[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    thumbs[current].classList.add('active');
+  }
+
+  function startAuto() {
+    autoTimer = setInterval(() => goTo(current + 1), 5000);
+  }
+  function resetAuto() {
+    clearInterval(autoTimer); startAuto();
+  }
+
+  if(prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+  if(nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+
+  dots.forEach(d  => d.addEventListener('click',  () => { goTo(parseInt(d.dataset.index));  resetAuto(); }));
+  thumbs.forEach(t => t.addEventListener('click', () => { goTo(parseInt(t.dataset.index)); resetAuto(); }));
+
+  // keyboard
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowLeft')  { goTo(current - 1); resetAuto(); }
+    if(e.key === 'ArrowRight') { goTo(current + 1); resetAuto(); }
+  });
+
+  // touch swipe
+  let touchStartX = 0;
+  const track = document.getElementById('slideshowTrack');
+  if(track){
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+    track.addEventListener('touchend',   e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if(Math.abs(dx) > 50){ goTo(dx < 0 ? current+1 : current-1); resetAuto(); }
+    });
+  }
+
+  startAuto();
+})();
+
+</script>
+</body>
+</html>
