@@ -3,1019 +3,1048 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZAPTA Technologies — Website Redesign Proposal</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-
+<title>ZAPTA — Redesign Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:       #05070a;
-  --bg2:      #0b0f14;
-  --bg3:      #111820;
-  --accent:   #00E5A0;
-  --accent-g: rgba(0,229,160,0.12);
-  --red:      #ff4a4a;
-  --text:     #f0eee8;
-  --muted:    #7a8494;
-  --border:   rgba(255,255,255,0.07);
-  --border-h: rgba(255,255,255,0.14);
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#04060a; --bg2:#080c14; --bg3:#0d1420;
+  --accent:#00E5A0; --red:#ff4444; --blue:#0066ff;
+  --text:#f0eee8; --muted:#68788a; --border:rgba(255,255,255,0.07);
+}
+html{overflow:hidden;height:100%;}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);color:var(--text);
+  height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;
 }
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+#slides{position:fixed;inset:0;display:flex;flex-direction:column;}
 
-html { scroll-behavior: smooth; overflow-x: hidden; }
+.slide{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
+  transform:translateY(60px);
+  overflow:hidden;
+}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.exit-up{opacity:0;transform:translateY(-60px);}
 
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
-/* scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+.nav-dots{
+  position:fixed;right:16px;top:50%;transform:translateY(-50%);
+  z-index:100;display:flex;flex-direction:column;gap:10px;
+}
+.nav-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  cursor:pointer;transition:all .3s;border:none;padding:0;
+}
+.nav-dot.active{background:var(--accent);transform:scale(1.6);}
+.nav-dot:hover{background:rgba(255,255,255,0.5);}
 
-/* ── NAV ── */
-header {
-  position: fixed; top: 0; left: 0; width: 100%; z-index: 200;
-  backdrop-filter: blur(16px);
-  background: rgba(5,7,10,0.75);
-  border-bottom: 1px solid var(--border);
+.slide-counter{
+  position:fixed;bottom:20px;right:16px;z-index:100;
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  color:var(--muted);
 }
-.nav-inner {
-  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
-  height: 64px; display: flex; align-items: center; justify-content: space-between;
-}
-.nav-logo { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
-.nav-logo span { color: var(--accent); }
-.nav-pill {
-  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
-  text-transform: uppercase; color: var(--accent);
-  border: 1px solid rgba(0,229,160,0.25);
-  padding: 5px 14px;
-}
-.nav-cta {
-  background: var(--accent); color: #05070a;
-  font-weight: 700; font-size: 13px;
-  padding: 9px 22px; text-decoration: none;
-  transition: opacity .2s;
-}
-.nav-cta:hover { opacity: .85; }
+.slide-counter span{color:var(--accent);}
 
-/* ── CONTAINER ── */
-.wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.arrow-hint{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:100;display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);
+  text-transform:uppercase;
+  animation:arrowBounce 2s infinite;
+  cursor:pointer;
+  transition:opacity .3s;
+}
+.arrow-hint.hidden{opacity:0;pointer-events:none;}
+@keyframes arrowBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.arrow-hint-icon{font-size:16px;color:var(--accent);}
 
-/* ── REVEAL ── */
-.reveal {
-  opacity: 0; transform: translateY(28px);
-  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+.slide-logo{
+  position:fixed;top:18px;left:20px;z-index:100;
+  font-size:15px;font-weight:800;letter-spacing:-.5px;
+  color:var(--text);text-decoration:none;
 }
-.reveal.active { opacity: 1; transform: none; }
-.d1 { transition-delay: .1s; }
-.d2 { transition-delay: .2s; }
-.d3 { transition-delay: .3s; }
-.d4 { transition-delay: .4s; }
+.slide-logo span{color:var(--accent);}
 
-/* ── SECTION BASE ── */
-section {
-  padding: 120px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-  position: relative;
+.live-btn{
+  position:fixed;top:12px;right:16px;z-index:100;
+  background:var(--accent);color:#04060a;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:800;font-size:11px;
+  padding:7px 14px;text-decoration:none;
+  box-shadow:0 0 20px rgba(0,229,160,.3);
+  transition:all .25s;
 }
+.live-btn:hover{box-shadow:0 0 40px rgba(0,229,160,.6);}
 
-.section-eyebrow {
-  font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
-  text-transform: uppercase; color: var(--accent);
-  margin-bottom: 14px;
-}
-.section-title {
-  font-size: clamp(32px,4vw,52px);
-  font-weight: 800; letter-spacing: -1.5px;
-  line-height: 1.1; margin-bottom: 16px;
-}
-.section-sub {
-  font-size: 17px; color: var(--muted); font-weight: 400;
-  max-width: 560px; line-height: 1.7;
+.slide-center{
+  text-align:center;
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:20px;
+  position:relative;z-index:2;
+  max-width:900px;
+  padding:60px 20px 80px;
+  width:100%;
+  overflow-y:auto;
+  max-height:100vh;
 }
 
-/* ── BUTTONS ── */
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; font-size: 14px;
-  padding: 13px 28px; text-decoration: none;
-  transition: all .25s; cursor: pointer; border: none;
-}
-.btn-accent { background: var(--accent); color: #05070a; }
-.btn-accent:hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,229,160,.25); }
-.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-h); }
-.btn-outline:hover { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.25); }
-.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-.btn-ghost:hover { color: var(--text); border-color: var(--border-h); }
-
-/* ══════════════════════════════════
-   HERO
-══════════════════════════════════ */
-#hero {
-  min-height: 100vh;
-  display: flex; align-items: center;
-  padding-top: 140px;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,229,160,.07) 0%, transparent 70%),
-    radial-gradient(circle at 80% 80%, rgba(0,102,255,.04) 0%, transparent 50%);
-  overflow: hidden;
+.slide-split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;align-items:center;
+  width:100%;max-width:1200px;
+  padding:0 4rem;
+  position:relative;z-index:2;
 }
 
-.hero-grid {
-  position: absolute; inset: 0;
+.slide-full{
+  width:100%;max-width:1200px;
+  padding:0 2rem;
+  position:relative;z-index:2;
+}
+
+.eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--accent);
+}
+
+.big-h{
+  font-size:clamp(32px,6vw,88px);
+  font-weight:800;letter-spacing:-2px;line-height:1.05;
+}
+.big-h em{font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent);}
+.big-h .red{color:var(--red);}
+
+.mid-h{
+  font-size:clamp(24px,4vw,56px);
+  font-weight:800;letter-spacing:-1.5px;line-height:1.08;
+}
+.mid-h em{font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent);}
+
+.sub-txt{
+  font-size:clamp(14px,2vw,18px);color:var(--muted);
+  font-weight:400;line-height:1.7;max-width:560px;
+}
+
+.stagger > *{
+  opacity:0;transform:translateY(24px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.slide.active .stagger > *:nth-child(1){opacity:1;transform:none;transition-delay:.1s;}
+.slide.active .stagger > *:nth-child(2){opacity:1;transform:none;transition-delay:.22s;}
+.slide.active .stagger > *:nth-child(3){opacity:1;transform:none;transition-delay:.34s;}
+.slide.active .stagger > *:nth-child(4){opacity:1;transform:none;transition-delay:.46s;}
+.slide.active .stagger > *:nth-child(5){opacity:1;transform:none;transition-delay:.58s;}
+.slide.active .stagger > *:nth-child(6){opacity:1;transform:none;transition-delay:.70s;}
+
+.hero-glow{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 90% 70% at 50% 0%, rgba(0,229,160,.08) 0%, transparent 60%);
+  pointer-events:none;z-index:1;
+}
+.hero-grid-bg{
+  position:absolute;inset:0;z-index:1;
   background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black, transparent);
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,black,transparent);
+  animation:gridDrift 20s linear infinite;
+}
+@keyframes gridDrift{from{background-position:0 0}to{background-position:72px 72px}}
+
+.pulse-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);display:inline-block;
+  animation:pd 2s infinite;
+}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.5)}}
+
+.stat-strip{
+  display:flex;gap:0;justify-content:center;
+  padding-top:32px;
+  border-top:1px solid var(--border);
+  width:100%;max-width:700px;
+  flex-wrap:wrap;
+}
+.stat-strip-item{
+  text-align:center;
+  padding:8px 20px;
+  flex:1;min-width:100px;
+}
+.stat-strip-n{
+  font-size:clamp(24px,5vw,36px);font-weight:800;letter-spacing:-1px;
+  line-height:1;color:var(--text);
+}
+.stat-strip-n span{color:var(--accent);}
+.stat-strip-l{font-size:11px;color:var(--muted);margin-top:4px;}
+
+.problem-diagram{position:relative;width:100%;}
+.pd-row{
+  display:flex;align-items:center;gap:0;
+  margin-bottom:2px;height:50px;
+}
+.pd-label{
+  width:110px;flex-shrink:0;
+  font-size:11px;font-weight:600;color:var(--muted);
+  text-align:right;padding-right:12px;
+}
+.pd-bar-wrap{flex:1;height:100%;display:flex;align-items:center;}
+.pd-bar{
+  height:32px;
+  border-radius:0 4px 4px 0;
+  display:flex;align-items:center;padding:0 10px;
+  font-size:11px;font-weight:700;letter-spacing:.5px;
+  opacity:0;transform:scaleX(0);transform-origin:left;
+  transition:opacity .6s, transform .8s cubic-bezier(.16,1,.3,1);
+  white-space:nowrap;
+  overflow:hidden;
+}
+.slide.active .pd-bar{opacity:1;transform:scaleX(1);}
+.pd-bar.bad{background:rgba(255,68,68,.15);border:1px solid rgba(255,68,68,.3);color:var(--red);}
+.pd-bar.good{background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.25);color:var(--accent);}
+.pd-row:nth-child(1) .pd-bar{transition-delay:.1s;}
+.pd-row:nth-child(2) .pd-bar{transition-delay:.2s;}
+.pd-row:nth-child(3) .pd-bar{transition-delay:.3s;}
+.pd-row:nth-child(4) .pd-bar{transition-delay:.4s;}
+.pd-row:nth-child(5) .pd-bar{transition-delay:.5s;}
+.pd-row:nth-child(6) .pd-bar{transition-delay:.6s;}
+
+.about-card{
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--border);
+  padding:28px 24px;
+  position:relative;
+}
+.about-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.skill-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+.sp{
+  font-size:10px;font-weight:600;padding:4px 10px;
+  background:rgba(0,229,160,.06);
+  border:1px solid rgba(0,229,160,.18);color:var(--accent);
+}
+.about-metrics{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);margin-top:16px;
+}
+.am{background:var(--bg2);padding:16px 12px;}
+.am-n{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-1px;line-height:1;}
+.am-l{font-size:10px;color:var(--muted);margin-top:4px;}
+
+.orbit-diagram{
+  position:relative;
+  width:min(380px, 85vw);
+  height:min(380px, 85vw);
+  flex-shrink:0;
+}
+#svcCanvas{position:absolute;inset:0;width:100%;height:100%;}
+
+.impact-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  width:100%;
+}
+.ic{
+  background:var(--bg2);padding:36px 24px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.ic::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--red),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.ic:hover::after{opacity:1;}
+.ic-word{
+  font-family:'Instrument Serif',serif;
+  font-style:italic;
+  font-size:clamp(32px,4vw,52px);
+  color:var(--red);line-height:1;margin-bottom:12px;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s,transform .6s;
+}
+.slide.active .ic:nth-child(1) .ic-word{opacity:1;transform:none;transition-delay:.15s;}
+.slide.active .ic:nth-child(2) .ic-word{opacity:1;transform:none;transition-delay:.3s;}
+.slide.active .ic:nth-child(3) .ic-word{opacity:1;transform:none;transition-delay:.45s;}
+.ic h3{font-size:clamp(12px,1.5vw,16px);font-weight:700;margin-bottom:8px;letter-spacing:-.3px;}
+.ic p{font-size:clamp(11px,1.2vw,13px);color:var(--muted);line-height:1.6;}
+
+.demo-slide-bg{
+  position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,229,160,.07) 0%, transparent 60%);
+}
+.demo-browser-wrap{width:100%;position:relative;z-index:2;}
+.demo-browser{
+  width:100%;border:1px solid rgba(0,229,160,.2);
+  box-shadow:0 0 80px rgba(0,229,160,.08), 0 40px 80px rgba(0,0,0,.8);
+  overflow:hidden;
+}
+.demo-bar{
+  height:34px;background:var(--bg3);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:6px;padding:0 12px;
+}
+.db-dot{width:8px;height:8px;border-radius:50%;}
+.db-url{
+  flex:1;height:20px;
+  background:rgba(0,0,0,.4);border:1px solid var(--border);
+  margin:0 8px;display:flex;align-items:center;padding:0 8px;
+  font-size:9px;color:var(--muted);letter-spacing:.5px;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+}
+.demo-inner{
+  background:linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding:24px 28px;gap:20px;
+  position:relative;overflow:hidden;
+}
+.demo-inner::before{
+  content:'';position:absolute;
+  right:-100px;top:-100px;
+  width:300px;height:300px;
+  background:radial-gradient(circle, rgba(0,229,160,.06) 0%, transparent 60%);
+  border-radius:50%;
+}
+.demo-left{display:flex;flex-direction:column;gap:12px;position:relative;z-index:2;}
+.demo-tag-s{
+  font-size:8px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);
+  border:1px solid rgba(0,229,160,.25);padding:3px 10px;
+  width:fit-content;
+}
+.demo-h{font-size:clamp(16px,2.5vw,28px);font-weight:800;letter-spacing:-1px;line-height:1.15;}
+.demo-h em{font-style:normal;color:var(--accent);}
+.demo-p{font-size:clamp(10px,1.5vw,13px);color:var(--muted);line-height:1.6;}
+.demo-btns-s{display:flex;gap:8px;flex-wrap:wrap;}
+.db-a{background:var(--accent);color:#04060a;font-size:10px;font-weight:800;padding:8px 14px;white-space:nowrap;}
+.db-b{border:1px solid var(--border);color:var(--text);font-size:10px;font-weight:600;padding:8px 14px;white-space:nowrap;}
+.demo-orbit-mini{position:relative;width:min(200px,28vw);height:min(200px,28vw);flex-shrink:0;}
+#miniOrbit{width:100%;height:100%;}
+
+.cta-glow-bg{
+  position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,229,160,.06) 0%, transparent 55%);
+  animation:ctaGlow 5s ease-in-out infinite;
+}
+@keyframes ctaGlow{0%,100%{opacity:.6}50%{opacity:1}}
+.cta-btn-main{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--accent);color:#04060a;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:800;font-size:clamp(13px,2vw,16px);
+  padding:clamp(12px,2vw,18px) clamp(28px,4vw,48px);
+  text-decoration:none;
+  box-shadow:0 0 30px rgba(0,229,160,.4);
+  animation:btnGlow 3s infinite;
+  transition:all .3s;
+}
+.cta-btn-main:hover{transform:translateY(-3px);box-shadow:0 0 60px rgba(0,229,160,.7);}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 20px rgba(0,229,160,.3)}50%{box-shadow:0 0 50px rgba(0,229,160,.6)}}
+
+.cta-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;font-size:clamp(12px,1.8vw,14px);
+  padding:clamp(10px,1.8vw,16px) clamp(20px,3vw,36px);
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.15);
+  transition:all .25s;
+}
+.cta-outline:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.3);}
+
+.contact-row{
+  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+  padding-top:32px;border-top:1px solid var(--border);
+  width:100%;
+}
+.cr-item{display:flex;flex-direction:column;gap:4px;}
+.cr-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.cr-val{font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;}
+.cr-val:hover{text-decoration:underline;}
+
+.strat-steps{display:flex;flex-direction:column;gap:0;width:100%;}
+.strat-step{
+  display:flex;gap:20px;padding:20px 0;
+  border-bottom:1px solid var(--border);
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s,transform .6s;
+}
+.strat-step:first-child{border-top:1px solid var(--border);}
+.slide.active .strat-step:nth-child(1){opacity:1;transform:none;transition-delay:.1s;}
+.slide.active .strat-step:nth-child(2){opacity:1;transform:none;transition-delay:.2s;}
+.slide.active .strat-step:nth-child(3){opacity:1;transform:none;transition-delay:.3s;}
+.strat-num{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);min-width:30px;padding-top:4px;}
+.strat-content h4{font-size:15px;font-weight:700;margin-bottom:5px;letter-spacing:-.3px;}
+.strat-content p{font-size:13px;color:var(--muted);line-height:1.7;}
+
+.progress-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:var(--border);}
+.progress-fill{height:100%;background:var(--accent);transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(0,229,160,.5);}
+
+.slide-scroll-inner{
+  width:100%;
+  max-height:calc(100vh - 100px);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:60px;
+}
+.slide-scroll-inner::-webkit-scrollbar{display:none;}
+
+@media(max-width:640px){
+
+  .nav-dots{
+    right:unset;top:unset;
+    bottom:28px;left:50%;
+    transform:translateX(-50%);
+    flex-direction:row;
+    gap:10px;
+  }
+  .nav-dot.active{transform:scale(1.6);}
+
+  .slide-counter{display:none;}
+
+  .arrow-hint{bottom:52px;
+  }
+
+  .slide-logo{font-size:13px;top:14px;left:14px;}
+
+  .live-btn{font-size:10px;padding:6px 10px;top:10px;right:10px;}
+
+  .slide-center{
+    padding:56px 18px 96px;
+    gap:16px;
+  }
+  .stat-strip{
+    gap:0;
+    flex-wrap:nowrap;
+  }
+  .stat-strip-item{
+    padding:6px 10px;
+  }
+
+  .slide-split{
+    grid-template-columns:1fr;
+    gap:28px;
+    padding:0 18px;
+    overflow-y:auto;
+    max-height:calc(100vh - 96px);
+    padding-bottom:60px;
+    align-items:start;
+  }
+  .slide-split::-webkit-scrollbar{display:none;}
+
+  .orbit-hide-mobile{display:none;}
+  .orbit-mobile-fallback{display:flex !important;}
+
+  .orbit-diagram{
+    width:min(300px,80vw);
+    height:min(300px,80vw);
+    margin:0 auto;
+  }
+
+  .impact-row{
+    grid-template-columns:1fr;
+  }
+  .ic{padding:28px 20px;}
+
+  .slide-full{
+    padding:0 18px;
+    overflow-y:auto;
+    max-height:calc(100vh - 96px);
+    padding-bottom:60px;
+  }
+  .slide-full::-webkit-scrollbar{display:none;}
+
+  .demo-inner{
+    grid-template-columns:1fr;
+    padding:20px 18px;
+    gap:16px;
+  }
+  .demo-orbit-mini{
+    width:min(160px,50vw);
+    height:min(160px,50vw);
+    margin:0 auto;
+  }
+
+  .about-card{padding:20px 16px;}
+
+  .contact-row{
+    gap:16px;
+  }
+  .cr-val{font-size:11px;}
+
+  .pd-label{
+    width:80px;
+    font-size:10px;
+    padding-right:8px;
+  }
+  .pd-bar{
+    font-size:9px;
+    padding:0 7px;
+  }
+
+  #slide-about .slide-split{
+    gap:20px;
+  }
 }
 
-.hero-inner {
-  position: relative; z-index: 2;
-  text-align: center;
-  max-width: 860px; margin: 0 auto;
-}
-
-.hero-tag {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(0,229,160,.08); border: 1px solid rgba(0,229,160,.2);
-  padding: 6px 18px; margin-bottom: 36px;
-  font-size: 11px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--accent);
-}
-.hero-tag::before {
-  content: ''; width: 6px; height: 6px;
-  background: var(--accent); border-radius: 50%;
-  animation: blink 2s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
-
-#hero h1 {
-  font-size: clamp(42px,6vw,80px);
-  font-weight: 800; letter-spacing: -2.5px;
-  line-height: 1.05; margin-bottom: 24px;
-  background: linear-gradient(to bottom, #fff 40%, #8a939e 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-
-.hero-italic {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  background: linear-gradient(135deg, var(--accent), #00b4d8);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-
-#hero p {
-  font-size: 19px; color: var(--muted); font-weight: 400;
-  max-width: 600px; margin: 0 auto 44px; line-height: 1.75;
-}
-
-.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-
-/* scroll hint */
-.scroll-hint {
-  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  font-size: 11px; font-weight: 600; color: var(--muted);
-  letter-spacing: 2px; text-transform: uppercase;
-  animation: fadeUp 1s 1s ease both;
-}
-.scroll-hint-line {
-  width: 1px; height: 48px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-  animation: scrollDrop 2s infinite;
-}
-@keyframes scrollDrop {
-  0%,100%{transform:scaleY(1);opacity:1}
-  50%{transform:scaleY(.5);opacity:.4}
-}
-@keyframes fadeUp { from{opacity:0;transform:translate(-50%,10px)} to{opacity:1;transform:translate(-50%,0)} }
-
-/* ══════════════════════════════════
-   ABOUT ME (Presenter)
-══════════════════════════════════ */
-#about {
-  background: var(--bg2);
-}
-.about-grid {
-  display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: center;
-}
-.about-img-wrap {
-  position: relative;
-}
-.about-img-frame {
-  width: 100%; aspect-ratio: 3/4;
-  overflow: hidden;
-  border: 1px solid var(--border-h);
-  position: relative;
-}
-.about-img-frame img {
-  width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(.85) saturate(.9);
-  transition: filter .4s;
-}
-.about-img-frame:hover img { filter: brightness(.95) saturate(1); }
-/* accent corner */
-.about-img-frame::before {
-  content: '';
-  position: absolute; top: -6px; left: -6px;
-  width: 40px; height: 40px;
-  border-top: 2px solid var(--accent);
-  border-left: 2px solid var(--accent);
-  z-index: 2;
-}
-.about-img-frame::after {
-  content: '';
-  position: absolute; bottom: -6px; right: -6px;
-  width: 40px; height: 40px;
-  border-bottom: 2px solid var(--accent);
-  border-right: 2px solid var(--accent);
-  z-index: 2;
-}
-.about-cert {
-  position: absolute; bottom: 24px; left: -20px;
-  background: rgba(5,7,10,.95); border: 1px solid rgba(0,229,160,.3);
-  padding: 12px 18px; backdrop-filter: blur(10px);
-}
-.about-cert-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; }
-.about-cert-val { font-size: 13px; font-weight: 700; margin-top: 2px; }
-
-.about-content .section-eyebrow { margin-bottom: 10px; }
-.about-content h2 {
-  font-size: clamp(28px,3.5vw,42px);
-  font-weight: 800; letter-spacing: -1.2px;
-  line-height: 1.1; margin-bottom: 20px;
-}
-.about-content p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 32px; }
-
-.about-skills {
-  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px;
-}
-.skill-pill {
-  font-size: 12px; font-weight: 600;
-  padding: 5px 14px;
-  background: rgba(0,229,160,.07);
-  border: 1px solid rgba(0,229,160,.2);
-  color: var(--accent);
-}
-
-.about-stats {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-  margin-top: 8px;
-}
-.about-stat { background: var(--bg2); padding: 20px 16px; }
-.about-stat-n {
-  font-size: 28px; font-weight: 800;
-  letter-spacing: -1px; color: var(--accent);
-  line-height: 1;
-}
-.about-stat-l { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-/* ══════════════════════════════════
-   PROBLEMS
-══════════════════════════════════ */
-#problem { background: var(--bg); }
-
-.problem-wrap {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-  margin-top: 60px;
-}
-.problem-card {
-  background: var(--bg2); padding: 40px 36px;
-  position: relative; overflow: hidden;
-  transition: background .3s;
-}
-.problem-card:hover { background: var(--bg3); }
-.problem-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--red);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .35s;
-}
-.problem-card:hover::before { transform: scaleX(1); }
-.problem-num {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px;
-  color: var(--red); text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; letter-spacing: -.3px; }
-.problem-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-/* site screenshot comparison */
-.site-compare {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 24px; margin-top: 60px;
-}
-.site-frame {
-  border: 1px solid var(--border);
-  overflow: hidden;
-  position: relative;
-}
-.site-frame-label {
-  position: absolute; top: 12px; left: 12px; z-index: 2;
-  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; padding: 4px 10px;
-  backdrop-filter: blur(8px);
-}
-.site-frame-label.before { background: rgba(255,74,74,.15); color: #ff4a4a; border: 1px solid rgba(255,74,74,.3); }
-.site-frame-label.after  { background: rgba(0,229,160,.1);  color: var(--accent); border: 1px solid rgba(0,229,160,.3); }
-.site-frame img { width: 100%; display: block; filter: brightness(.75); transition: filter .4s; }
-.site-frame:hover img { filter: brightness(.95); }
-
-/* ══════════════════════════════════
-   IMPACT / COST
-══════════════════════════════════ */
-#impact { background: var(--bg2); }
-
-.impact-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-  margin-top: 60px;
-}
-.impact-card {
-  background: var(--bg2); padding: 48px 36px;
-  text-align: center; transition: background .3s;
-}
-.impact-card:hover { background: var(--bg3); }
-.impact-number {
-  font-family: 'Instrument Serif', serif;
-  font-size: 52px; font-weight: 400; font-style: italic;
-  color: var(--red); line-height: 1; margin-bottom: 16px;
-}
-.impact-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; letter-spacing: -.3px; }
-.impact-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-/* ══════════════════════════════════
-   DEMO PREVIEW
-══════════════════════════════════ */
-#demo { background: var(--bg); overflow: hidden; }
-
-.demo-browser {
-  margin-top: 60px;
-  border: 1px solid var(--border-h);
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 40px 80px rgba(0,0,0,.6);
-}
-
-.browser-bar {
-  height: 38px;
-  background: var(--bg3);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 8px; padding: 0 16px;
-}
-.b-dot { width: 10px; height: 10px; border-radius: 50%; }
-.browser-url {
-  flex: 1; height: 22px;
-  background: rgba(0,0,0,.3);
-  border: 1px solid var(--border);
-  margin: 0 12px;
-  display: flex; align-items: center; padding: 0 12px;
-  font-size: 11px; color: var(--muted);
-}
-
-.demo-screen {
-  position: relative;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-}
-.demo-screen img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: top;
-  display: block;
-  filter: brightness(.8);
-}
-/* overlay with hero text sim */
-.demo-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(5,7,10,.8) 0%, rgba(5,7,10,.3) 100%);
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: flex-start;
-  padding: 60px;
-  gap: 20px;
-}
-.demo-tag-sim {
-  font-size: 10px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--accent);
-  border: 1px solid rgba(0,229,160,.3);
-  padding: 5px 14px;
-}
-.demo-h1-sim {
-  font-size: clamp(28px,4vw,52px);
-  font-weight: 800; letter-spacing: -1.5px;
-  line-height: 1.1; max-width: 500px;
-}
-.demo-h1-sim em { font-style: normal; color: var(--accent); }
-.demo-p-sim { font-size: 16px; color: var(--muted); max-width: 420px; line-height: 1.7; }
-.demo-btns-sim { display: flex; gap: 12px; margin-top: 8px; }
-.demo-btn-a {
-  background: var(--accent); color: #05070a;
-  font-size: 13px; font-weight: 700; padding: 12px 24px;
-}
-.demo-btn-b {
-  background: transparent; color: var(--text);
-  border: 1px solid var(--border-h);
-  font-size: 13px; font-weight: 600; padding: 12px 24px;
-}
-
-/* orbit preview in demo */
-.demo-orbit-preview {
-  position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
-  width: 280px; height: 280px; opacity: .7;
-}
-.demo-orbit-ring {
-  position: absolute; top: 50%; left: 50%; border-radius: 50%;
-  border: 1px dashed rgba(0,229,160,.15);
-  transform: translate(-50%,-50%);
-}
-.demo-orbit-center {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  width: 60px; height: 60px; border-radius: 50%;
-  background: rgba(0,229,160,.08); border: 1px solid rgba(0,229,160,.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800; color: var(--text);
-}
-.demo-orbit-dot {
-  position: absolute; top: 50%; left: 50%;
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(13,17,23,.9); border: 1px solid rgba(0,229,160,.25);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; margin: -18px 0 0 -18px;
-}
-
-/* ══════════════════════════════════
-   BEFORE / AFTER
-══════════════════════════════════ */
-#comparison { background: var(--bg2); }
-
-.comparison-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 24px; margin-top: 60px;
-}
-.comp-side {
-  padding: 48px; position: relative; overflow: hidden;
-}
-.comp-before {
-  background: var(--bg);
-  border: 1px solid var(--border);
-}
-.comp-after {
-  background: #0a1610;
-  border: 1px solid rgba(0,229,160,.2);
-  box-shadow: inset 0 0 40px rgba(0,229,160,.02);
-}
-.comp-label {
-  position: absolute; top: 20px; right: 20px;
-  font-size: 10px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; padding: 4px 12px;
-}
-.comp-label.before { color: var(--muted); border: 1px solid var(--border); }
-.comp-label.after  { color: var(--accent); border: 1px solid rgba(0,229,160,.3); }
-.comp-heading { font-size: 20px; font-weight: 700; margin-bottom: 28px; letter-spacing: -.5px; }
-.comp-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-.comp-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.5; }
-.comp-icon { font-size: 14px; margin-top: 2px; flex-shrink: 0; }
-.neg { color: var(--red); }
-.pos { color: var(--accent); }
-
-/* ══════════════════════════════════
-   STRATEGY
-══════════════════════════════════ */
-#strategy { background: var(--bg); }
-
-.strategy-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-  margin-top: 60px;
-}
-.strat-card {
-  background: var(--bg2); padding: 44px 36px;
-  position: relative; overflow: hidden;
-  transition: background .3s;
-}
-.strat-card:hover { background: var(--bg3); }
-.strat-card::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-  background: var(--accent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .35s;
-}
-.strat-card:hover::after { transform: scaleX(1); }
-.strat-num {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px;
-  color: var(--accent); text-transform: uppercase; margin-bottom: 20px;
-}
-.strat-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; letter-spacing: -.3px; }
-.strat-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-/* ══════════════════════════════════
-   PROJECTS SHOWCASE
-══════════════════════════════════ */
-#projects-sec { background: var(--bg2); }
-
-.projects-showcase {
-  display: grid; grid-template-columns: repeat(2,1fr);
-  gap: 24px; margin-top: 60px;
-}
-.proj-card {
-  background: var(--bg); border: 1px solid var(--border);
-  overflow: hidden; transition: border-color .3s, transform .3s;
-}
-.proj-card:hover { border-color: var(--border-h); transform: translateY(-4px); }
-.proj-card.wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
-.proj-img { overflow: hidden; }
-.proj-img img {
-  width: 100%; height: 100%; min-height: 220px;
-  object-fit: cover; display: block;
-  filter: brightness(.7); transition: transform .5s, filter .4s;
-}
-.proj-card:hover .proj-img img { transform: scale(1.04); filter: brightness(.85); }
-.proj-body { padding: 32px; }
-.proj-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-.proj-tag {
-  font-size: 11px; font-weight: 500; padding: 3px 10px;
-  background: rgba(255,255,255,.05); border: 1px solid var(--border); color: var(--muted);
-}
-.proj-card h3 { font-size: 20px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 8px; }
-.proj-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-/* ══════════════════════════════════
-   CTA / CLOSE
-══════════════════════════════════ */
-#cta {
-  background: var(--bg);
-  text-align: center;
-  background-image: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,229,160,.05) 0%, transparent 70%);
-}
-.cta-inner { max-width: 720px; margin: 0 auto; }
-.cta-inner h2 {
-  font-size: clamp(36px,5vw,64px);
-  font-weight: 800; letter-spacing: -2px;
-  line-height: 1.05; margin-bottom: 20px;
-}
-.cta-inner h2 em { font-style: normal; color: var(--accent); }
-.cta-inner p { font-size: 18px; color: var(--muted); margin-bottom: 48px; line-height: 1.75; }
-.cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 56px; }
-
-.contact-bar {
-  display: flex; gap: 32px; justify-content: center;
-  flex-wrap: wrap; padding-top: 40px;
-  border-top: 1px solid var(--border);
-}
-.contact-item { display: flex; flex-direction: column; gap: 4px; }
-.contact-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-.contact-val { font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
-.contact-val:hover { text-decoration: underline; }
-
-/* ══════════════════════════════════
-   FOOTER
-══════════════════════════════════ */
-footer {
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-  padding: 28px 0;
-  display: flex; align-items: center; justify-content: center;
-}
-.footer-inner {
-  max-width: 1200px; width: 100%; padding: 0 2rem;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.footer-copy { font-size: 13px; color: var(--muted); }
-.footer-note { font-size: 12px; color: var(--muted); font-style: italic; }
-
-/* ══════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════ */
-@media (max-width: 900px) {
-  section { padding: 80px 0; }
-  .about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .about-img-wrap { max-width: 340px; }
-  .problem-wrap { grid-template-columns: 1fr; }
-  .impact-grid { grid-template-columns: 1fr; }
-  .comparison-grid { grid-template-columns: 1fr; }
-  .strategy-grid { grid-template-columns: 1fr; }
-  .projects-showcase { grid-template-columns: 1fr; }
-  .proj-card.wide { grid-column: auto; grid-template-columns: 1fr; }
-  .demo-orbit-preview { display: none; }
-  .demo-overlay { padding: 32px; }
-  .site-compare { grid-template-columns: 1fr; }
-  .contact-bar { gap: 24px; }
+@media(min-width:641px) and (max-width:900px){
+  .slide-split{
+    grid-template-columns:1fr;
+    gap:32px;
+    padding:0 2rem;
+    overflow-y:auto;
+    max-height:calc(100vh - 96px);
+    padding-bottom:60px;
+    align-items:start;
+  }
+  .slide-split::-webkit-scrollbar{display:none;}
+  .orbit-diagram{
+    width:320px;height:320px;margin:0 auto;
+  }
+  .impact-row{grid-template-columns:1fr;}
+  .slide-full{
+    padding:0 1.5rem;
+    overflow-y:auto;
+    max-height:calc(100vh - 96px);
+    padding-bottom:60px;
+  }
+  .slide-full::-webkit-scrollbar{display:none;}
+  .demo-inner{
+    grid-template-columns:1fr;
+    padding:24px;
+  }
+  .demo-orbit-mini{width:180px;height:180px;margin:0 auto;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<header>
-  <div class="nav-inner">
-    <div class="nav-logo">ZAPTA<span>.</span></div>
-    <div class="nav-pill">Website Redesign Proposal</div>
-    <a href="./demo.html" target="_blank" class="nav-cta">View Live Demo →</a>
-  </div>
-</header>
+<canvas id="particles"></canvas>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<a href="#" class="slide-logo">ZAPTA<span>.</span></a>
+<a href="./demo.html" target="_blank" class="live-btn">Demo →</a>
+<div class="nav-dots" id="navDots"></div>
+<div class="slide-counter"><span id="currentNum">01</span> / <span id="totalNum">08</span></div>
+<div class="arrow-hint" id="arrowHint">
+  <div class="arrow-hint-icon">↓</div>
+  <span>scroll or press ↓</span>
+</div>
 
-<!-- ══ HERO ══ -->
-<section id="hero">
-  <div class="hero-grid"></div>
-  <div class="wrap">
-    <div class="hero-inner">
-      <div class="hero-tag reveal">Digital Performance Audit · 2026</div>
-      <h1 class="reveal d1">Your Website Is Costing You <span class="hero-italic">Opportunities.</span></h1>
-      <p class="reveal d2">Every day, high-intent buyers land on your homepage and leave without a trace. It's not a traffic problem — it's a positioning deficit.</p>
-      <div class="hero-actions reveal d3">
-        <a href="#problem" class="btn btn-accent">See What's Missing ↓</a>
-        <a href="./demo.html" target="_blank" class="btn btn-outline">View Live Concept →</a>
+<div id="slides">
+
+<div class="slide active" data-slide="0">
+  <div class="hero-glow"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="slide-center stagger">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="pulse-dot"></div>
+      <span class="eyebrow">Website Redesign Proposal · 2026</span>
+    </div>
+    <h1 class="big-h">
+      Visitors leave because<br>they don't <em>feel</em> anything.
+    </h1>
+    <p class="sub-txt">
+      Not a traffic problem. A positioning problem. Every second the current site is live — it's costing ZAPTA real leads.
+    </p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="./demo.html" target="_blank" class="cta-btn-main" style="font-size:13px;padding:12px 28px;">Open Live Demo →</a>
+      <button onclick="goTo(1)" style="background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15);font-family:inherit;font-size:13px;font-weight:700;padding:11px 24px;cursor:pointer;">See the Audit ↓</button>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-strip-item">
+        <div class="stat-strip-n">3<span>s</span></div>
+        <div class="stat-strip-l">Before visitor bounces</div>
+      </div>
+      <div class="stat-strip-item">
+        <div class="stat-strip-n">94<span>%</span></div>
+        <div class="stat-strip-l">Design-based first impressions</div>
+      </div>
+      <div class="stat-strip-item">
+        <div class="stat-strip-n">200<span>%</span></div>
+        <div class="stat-strip-l">Avg ROI from UX investment</div>
       </div>
     </div>
   </div>
-  <div class="scroll-hint">
-    <div class="scroll-hint-line"></div>
-    Scroll
-  </div>
-</section>
+</div>
 
-<!-- ══ ABOUT ME ══ -->
-<section id="about">
-  <div class="wrap">
-    <div class="about-grid">
-      <div class="about-img-wrap reveal">
-        <div class="about-img-frame">
-          <!-- Premium Unsplash: confident developer at desk -->
-          <img
-            src="./images/Gemini_Generated_Image_i6dlhyi6dlhyi6dl.png"
-            alt="Enoch Babatunde — Frontend Developer"
-            onerror="this.src='https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=800&q=90'"
-          >
+<div class="slide" data-slide="1" id="slide-about" style="background:var(--bg2);">
+  <div class="slide-split">
+    <div class="stagger">
+      <span class="eyebrow">Who's Presenting</span>
+      <h2 class="mid-h">Hi, I'm Enoch —<br><em>Frontend Dev.</em></h2>
+      <p class="sub-txt" style="font-size:clamp(13px,2vw,16px);max-width:420px;">
+        3+ years building premium web experiences. I studied ZAPTA's site, identified every friction point, and built a full working redesign — specifically for this pitch.
+      </p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;max-width:420px;">
+        Certified Best Student in Frontend Development · SQI College of ICT<br>B.Sc. Software Engineering · Chrisland University
+      </p>
+    </div>
+    <div class="stagger">
+      <div class="about-card">
+        <div class="eyebrow">My Stack</div>
+        <div class="skill-pills">
+          <span class="sp">HTML / CSS</span><span class="sp">JavaScript</span>
+          <span class="sp">React</span><span class="sp">Firebase</span>
+          <span class="sp">Animations</span><span class="sp">Canvas API</span>
+          <span class="sp">UI / UX</span><span class="sp">Netlify</span>
         </div>
-        <div class="about-cert">
-          <div class="about-cert-label">🏅 Certified</div>
-          <div class="about-cert-val">Best Student · Frontend Dev</div>
-        </div>
-      </div>
-      <div class="about-content reveal d2">
-        <div class="section-eyebrow">Who's Presenting</div>
-        <h2>Hi, I'm Enoch Babatunde —<br>Frontend Developer.</h2>
-        <p>Based in Abeokuta, Nigeria. 3+ years of self-taught experience building modern, performant web interfaces. Currently pursuing a B.Sc. in Software Engineering at Chrisland University and certified by SQI College of ICT as Best Student in Frontend Development.</p>
-        <p>I specialize in clean, animated, conversion-focused web experiences — exactly the kind ZAPTA deserves.</p>
-        <div class="about-skills">
-          <span class="skill-pill">HTML / CSS</span>
-          <span class="skill-pill">JavaScript</span>
-          <span class="skill-pill">React</span>
-          <span class="skill-pill">Firebase</span>
-          <span class="skill-pill">UI / UX</span>
-          <span class="skill-pill">Animations</span>
-        </div>
-        <div class="about-stats">
-          <div class="about-stat">
-            <div class="about-stat-n">3+</div>
-            <div class="about-stat-l">Years Experience</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-n">SQI</div>
-            <div class="about-stat-l">Certified Dev</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-n">↗</div>
-            <div class="about-stat-l">Open to Work</div>
-          </div>
+        <div class="about-metrics">
+          <div class="am"><div class="am-n">3+</div><div class="am-l">Years Exp</div></div>
+          <div class="am"><div class="am-n">SQI</div><div class="am-l">Certified</div></div>
+          <div class="am"><div class="am-n">↗</div><div class="am-l">Open to Work</div></div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ══ PROBLEMS ══ -->
-<section id="problem">
-  <div class="wrap">
-    <div class="reveal">
-      <div class="section-eyebrow">The Current State</div>
-      <h2 class="section-title">Identified Friction Points</h2>
-      <p class="section-sub">An honest, analytical look at zaptatech.com's live web presence — and what it's silently costing you.</p>
+<div class="slide" data-slide="2">
+  <div class="slide-split">
+    <div class="stagger">
+      <span class="eyebrow">The Audit</span>
+      <h2 class="mid-h">What the<br>current site <span style="color:var(--red);">fails</span> at.</h2>
+      <p class="sub-txt" style="font-size:clamp(13px,2vw,15px);max-width:380px;">
+        Each bar shows how the current site performs vs. what premium agencies deliver.
+      </p>
     </div>
+    <div class="problem-diagram" style="max-width:520px;">
+      <div class="pd-row"><div class="pd-label">First impression</div><div class="pd-bar-wrap"><div class="pd-bar bad" style="width:35%;">Generic</div></div></div>
+      <div class="pd-row"><div class="pd-label">Visual identity</div><div class="pd-bar-wrap"><div class="pd-bar bad" style="width:28%;">Weak</div></div></div>
+      <div class="pd-row"><div class="pd-label">Motion & life</div><div class="pd-bar-wrap"><div class="pd-bar bad" style="width:20%;">None</div></div></div>
+      <div class="pd-row"><div class="pd-label">Hero engagement</div><div class="pd-bar-wrap"><div class="pd-bar bad" style="width:30%;">Flat</div></div></div>
+      <div class="pd-row"><div class="pd-label">Trust signals</div><div class="pd-bar-wrap"><div class="pd-bar bad" style="width:25%;">Buried</div></div></div>
+      <div class="pd-row"><div class="pd-label">Conversion path</div><div class="pd-bar-wrap"><div class="pd-bar bad" style="width:27%;">Unclear</div></div></div>
+    </div>
+  </div>
+</div>
 
-    <!-- Site screenshots: current vs concept -->
-    <div class="site-compare reveal d1">
-      <div class="site-frame">
-        <div class="site-frame-label before">Current Site</div>
-        <img
-          src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=900&q=85"
-          alt="Generic template website"
-          onerror="this.src='https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?auto=format&fit=crop&w=900&q=85'"
-        >
-      </div>
-      <div class="site-frame">
-        <div class="site-frame-label after">Redesign Concept</div>
-        <img
-          src="https://images.unsplash.com/photo-1517430816045-df4b7de01a42?auto=format&fit=crop&w=900&q=85"
-          alt="Premium dark modern website"
-          onerror="this.src='https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=900&q=85'"
-        >
+<div class="slide" data-slide="3">
+  <div class="slide-split">
+    <div class="stagger">
+      <span class="eyebrow">The Redesign</span>
+      <h2 class="mid-h">What the<br>concept <em>fixes</em>.</h2>
+      <p class="sub-txt" style="font-size:clamp(13px,2vw,15px);max-width:380px;">
+        Same categories. Completely different scores. This is what the live demo delivers.
+      </p>
+    </div>
+    <div class="problem-diagram" style="max-width:520px;">
+      <div class="pd-row"><div class="pd-label">First impression</div><div class="pd-bar-wrap"><div class="pd-bar good" style="width:92%;">Distinctive · Instant</div></div></div>
+      <div class="pd-row"><div class="pd-label">Visual identity</div><div class="pd-bar-wrap"><div class="pd-bar good" style="width:95%;">Premium Dark Brand</div></div></div>
+      <div class="pd-row"><div class="pd-label">Motion & life</div><div class="pd-bar-wrap"><div class="pd-bar good" style="width:90%;">Orbit · Particles · FX</div></div></div>
+      <div class="pd-row"><div class="pd-label">Hero engagement</div><div class="pd-bar-wrap"><div class="pd-bar good" style="width:93%;">Video BG · Live Orbit</div></div></div>
+      <div class="pd-row"><div class="pd-label">Trust signals</div><div class="pd-bar-wrap"><div class="pd-bar good" style="width:88%;">CEO Video · Auto-play</div></div></div>
+      <div class="pd-row"><div class="pd-label">Conversion path</div><div class="pd-bar-wrap"><div class="pd-bar good" style="width:91%;">Clear CTAs · Slideshow</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="4">
+  <div class="slide-split">
+    <div class="stagger">
+      <span class="eyebrow">The Orbit System</span>
+      <h2 class="mid-h">All 6 services<br><em>visible</em> before<br>a word is read.</h2>
+      <p class="sub-txt" style="font-size:clamp(13px,2vw,15px);max-width:380px;">
+        A live animated orbit shows every ZAPTA service. Hover any icon to see it glow and connect to center.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);flex-wrap:wrap;">
+          <span>⚡ Web Dev</span><span>📱 Mobile</span><span>🤖 AI/ML</span>
+          <span>🎨 UI/UX</span><span>🚀 MVP Dev</span><span>👥 Teams</span>
+        </div>
       </div>
     </div>
-
-    <div class="problem-wrap reveal d2">
-      <div class="problem-card">
-        <div class="problem-num">Issue 01</div>
-        <h3>Weak Visual Hierarchy</h3>
-        <p>Core value propositions blend into the background. Visitors can't understand what makes ZAPTA special within the critical first 3 seconds — the window before they bounce.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-num">Issue 02</div>
-        <h3>Generic Color & Typography</h3>
-        <p>The standard blue/white palette mirrors thousands of other agencies. There's nothing distinctive that signals "world-class AI software company" to a new visitor.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-num">Issue 03</div>
-        <h3>Static, No Interactions</h3>
-        <p>No scroll animations, no micro-interactions. The site feels passive — inconsistent with the innovative, AI-forward identity ZAPTA projects in everything else it does.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-num">Issue 04</div>
-        <h3>Buried Social Proof</h3>
-        <p>Terry Peterson's powerful video testimonial requires a manual click to play. This buried trust signal should be working automatically from the first scroll.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-num">Issue 05</div>
-        <h3>Empty Hero Real Estate</h3>
-        <p>The right half of the hero section is wasted. A visually rich element — like a service orbit or animated visual — would massively improve engagement and dwell time.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-num">Issue 06</div>
-        <h3>Weak CTA Positioning</h3>
-        <p>Calls-to-action are passive and poorly placed. High-intent visitors have to search for a way to engage — and most won't. Every extra click loses a potential client.</p>
+    <div style="display:flex;justify-content:center;align-items:center;">
+      <div class="orbit-diagram">
+        <canvas id="svcCanvas" width="480" height="480"></canvas>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ══ IMPACT ══ -->
-<section id="impact">
-  <div class="wrap">
-    <div class="reveal" style="text-align:center;">
-      <div class="section-eyebrow">Business Reality</div>
-      <h2 class="section-title">The Invisible Drain</h2>
-      <p class="section-sub" style="margin:0 auto;">A weak digital presence isn't neutral — it actively costs you leads, authority, and revenue.</p>
+<div class="slide" data-slide="5" style="background:var(--bg2);">
+  <div class="slide-full stagger">
+    <div style="text-align:center;margin-bottom:36px;">
+      <span class="eyebrow">Business Reality</span>
+      <h2 class="mid-h" style="margin-top:12px;">A weak site isn't neutral.<br><em>It's actively costing you.</em></h2>
     </div>
-    <div class="impact-grid">
-      <div class="impact-card reveal d1">
-        <div class="impact-number">Lost</div>
+    <div class="impact-row">
+      <div class="ic">
+        <div class="ic-word">Lost</div>
         <h3>Inbound Leads</h3>
-        <p>Qualified leads dropping off due to cognitive friction and unclear value positioning during the first discovery visit.</p>
+        <p>Qualified prospects leave — not because the service is wrong, but because the experience didn't build enough trust before they clicked away.</p>
       </div>
-      <div class="impact-card reveal d2">
-        <div class="impact-number">Diluted</div>
+      <div class="ic">
+        <div class="ic-word">Diluted</div>
         <h3>Brand Authority</h3>
-        <p>When your engineering is world-class but your website feels standard, market perception defaults to standard — costing you premium deals.</p>
+        <p>You build AI-grade software. When your site doesn't reflect that, the market assumes your work matches your presentation.</p>
       </div>
-      <div class="impact-card reveal d3">
-        <div class="impact-number">Higher</div>
-        <h3>Acquisition Costs</h3>
-        <p>Marketing spend compounds when it drives traffic into a funnel that underconverts. Every improvement to the site multiplies ROI on existing ad spend.</p>
+      <div class="ic">
+        <div class="ic-word">Wasted</div>
+        <h3>Marketing Spend</h3>
+        <p>Every dollar spent on ads & SEO underperforms until the site it sends traffic to can actually convert that traffic into conversations.</p>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ══ DEMO PREVIEW ══ -->
-<section id="demo">
-  <div class="wrap">
-    <div class="reveal" style="text-align:center;">
-      <div class="section-eyebrow">The Redesign Concept</div>
-      <h2 class="section-title">Built. Live. Ready to Deploy.</h2>
-      <p class="section-sub" style="margin:0 auto 12px;">This isn't a mockup or a wireframe. It's a full, working, production-grade redesign of the ZAPTA homepage — built specifically for this proposal.</p>
-    </div>
-
-    <div class="demo-browser reveal d1">
-      <div class="browser-bar">
-        <div class="b-dot" style="background:#ff5f56"></div>
-        <div class="b-dot" style="background:#ffbd2e"></div>
-        <div class="b-dot" style="background:#27c93f"></div>
-        <div class="browser-url">zaptatech.com · Redesign Concept by Enoch Babatunde</div>
+<div class="slide" data-slide="6">
+  <div class="demo-slide-bg"></div>
+  <div class="slide-full">
+    <div class="stagger" style="text-align:center;margin-bottom:24px;">
+      <span class="eyebrow">The Concept</span>
+      <h2 class="mid-h" style="margin-top:10px;">
+        This is what ZAPTA<br>should <em>feel like.</em>
+      </h2>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:16px;">
+        <a href="./demo.html" target="_blank" class="cta-btn-main" style="font-size:13px;padding:12px 28px;">Open Live Demo →</a>
       </div>
-      <div class="demo-screen">
-        <img
-          src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=90"
-          alt="Dark premium tech website"
-          onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=90'"
-        >
-        <div class="demo-overlay">
-          <div class="demo-tag-sim">AI-Centric Software Development</div>
-          <div class="demo-h1-sim">We Build Software<br>That <em>Scales</em> Your<br>Business.</div>
-          <div class="demo-p-sim">From AI-powered MVPs to enterprise platforms — ZAPTA delivers custom software that drives real growth.</div>
-          <div class="demo-btns-sim">
-            <div class="demo-btn-a">Start a Project →</div>
-            <div class="demo-btn-b">View Our Work</div>
+    </div>
+    <div class="demo-browser-wrap stagger">
+      <div class="demo-browser">
+        <div class="demo-bar">
+          <div class="db-dot" style="background:#ff5f56"></div>
+          <div class="db-dot" style="background:#ffbd2e"></div>
+          <div class="db-dot" style="background:#27c93f"></div>
+          <div class="db-url">zaptatech.com · Concept by Enoch Babatunde</div>
+        </div>
+        <div class="demo-inner">
+          <div class="demo-left">
+            <div class="demo-tag-s">AI-Centric Software Development</div>
+            <div class="demo-h">We Build Software<br>That <em>Scales</em> Your<br>Business.</div>
+            <div class="demo-p">From AI-powered MVPs to enterprise platforms — shipped fast, built to last.</div>
+            <div class="demo-btns-s">
+              <div class="db-a">Start a Project →</div>
+              <div class="db-b">View Our Work</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:center;align-items:center;">
+            <div class="demo-orbit-mini">
+              <canvas id="miniOrbit" width="240" height="240"></canvas>
+            </div>
           </div>
         </div>
-        <!-- orbit rings decoration -->
-        <div class="demo-orbit-preview">
-          <div class="demo-orbit-ring" style="width:280px;height:280px;"></div>
-          <div class="demo-orbit-ring" style="width:190px;height:190px;border-color:rgba(0,229,160,.1)"></div>
-          <div class="demo-orbit-ring" style="width:110px;height:110px;border-color:rgba(0,229,160,.2)"></div>
-          <div class="demo-orbit-center">ZAP.</div>
-          <div class="demo-orbit-dot" style="transform:translate(-55px,-130px)">⚡</div>
-          <div class="demo-orbit-dot" style="transform:translate(75px,-95px)">🤖</div>
-          <div class="demo-orbit-dot" style="transform:translate(100px,40px)">🚀</div>
-          <div class="demo-orbit-dot" style="transform:translate(-90px,60px)">🎨</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:32px;" class="reveal d2">
-      <a href="./demo.html" target="_blank" class="btn btn-accent" style="font-size:16px;padding:16px 40px;">
-        Open Live Demo →
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ══ BEFORE / AFTER ══ -->
-<section id="comparison">
-  <div class="wrap">
-    <div class="reveal">
-      <div class="section-eyebrow">Side by Side</div>
-      <h2 class="section-title">The Structural Shift</h2>
-      <p class="section-sub">Concrete changes that drive measurable differences in engagement, trust, and conversion.</p>
-    </div>
-    <div class="comparison-grid">
-      <div class="comp-side comp-before reveal d1">
-        <div class="comp-label before">Current System</div>
-        <h3 class="comp-heading" style="color:var(--muted)">Passive Architecture</h3>
-        <ul class="comp-list">
-          <li><span class="comp-icon neg">✕</span>Generic blue/white palette — forgettable</li>
-          <li><span class="comp-icon neg">✕</span>Static layout, no scroll animations</li>
-          <li><span class="comp-icon neg">✕</span>Empty hero right side — wasted space</li>
-          <li><span class="comp-icon neg">✕</span>Terry Peterson video hidden behind a click</li>
-          <li><span class="comp-icon neg">✕</span>Weak headline — no instant clarity</li>
-          <li><span class="comp-icon neg">✕</span>Generic template feel — indistinct from competitors</li>
-        </ul>
-      </div>
-      <div class="comp-side comp-after reveal d2">
-        <div class="comp-label after">Proposed System</div>
-        <h3 class="comp-heading">Intentional Engine</h3>
-        <ul class="comp-list">
-          <li><span class="comp-icon pos">✓</span>Premium dark brand identity — instantly distinctive</li>
-          <li><span class="comp-icon pos">✓</span>Scroll-reveal animations + floating particles</li>
-          <li><span class="comp-icon pos">✓</span>Kuda-style orbit animation — services at a glance</li>
-          <li><span class="comp-icon pos">✓</span>Auto-playing video testimonial + custom controls</li>
-          <li><span class="comp-icon pos">✓</span>Sharp, punchy headline with clear CTA path</li>
-          <li><span class="comp-icon pos">✓</span>Signature look that signals world-class AI agency</li>
-        </ul>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ══ STRATEGY ══ -->
-<section id="strategy">
-  <div class="wrap">
-    <div class="reveal">
-      <div class="section-eyebrow">Methodology</div>
-      <h2 class="section-title">How I Build</h2>
-      <p class="section-sub">Engineering a web experience is a strategic discipline, not an aesthetic guess.</p>
+<div class="slide" data-slide="7">
+  <div class="cta-glow-bg"></div>
+  <div class="slide-center stagger">
+    <span class="eyebrow">Let's Make It Real</span>
+    <h1 class="big-h">
+      The demo is live.<br>Let's <em>talk.</em>
+    </h1>
+    <p class="sub-txt">
+      Built specifically for ZAPTA. Not a template. A studied, intentional redesign — ready to deploy today.
+    </p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="./demo.html" target="_blank" class="cta-btn-main">Open Live Demo →</a>
+      <a href="mailto:syedmohsin.ali@zaptatech.com" class="cta-outline">Send to Team →</a>
     </div>
-    <div class="strategy-grid">
-      <div class="strat-card reveal d1">
-        <div class="strat-num">Step 01</div>
-        <h3>Conversion Architecture</h3>
-        <p>Mapping user paths based on target audience behavior. Every element — headline, CTA, section order — is intentional and tested against first-impression psychology.</p>
+    <div class="contact-row">
+      <div class="cr-item">
+        <span class="cr-label">LinkedIn</span>
+        <a href="https://linkedin.com/in/enoch-babatunde-464751328" target="_blank" class="cr-val">enoch-babatunde</a>
       </div>
-      <div class="strat-card reveal d2">
-        <div class="strat-num">Step 02</div>
-        <h3>Trust-Driven Design</h3>
-        <p>Integrating ZAPTA's real testimonials, client logos, ISO certification, and case studies into the visual flow — so social proof works before a visitor even reads a headline.</p>
+      <div class="cr-item">
+        <span class="cr-label">GitHub</span>
+        <a href="https://github.com/KingE-ops" target="_blank" class="cr-val">KingE-ops</a>
       </div>
-      <div class="strat-card reveal d3">
-        <div class="strat-num">Step 03</div>
-        <h3>Performance Engineering</h3>
-        <p>Clean semantic HTML, optimized assets, smooth 60fps animations. A site that looks premium and loads fast — scoring well on Core Web Vitals for SEO and UX.</p>
+      <div class="cr-item">
+        <span class="cr-label">Portfolio</span>
+        <a href="https://enochport.netlify.app" target="_blank" class="cr-val">enochport.netlify.app</a>
+      </div>
+      <div class="cr-item">
+        <span class="cr-label">Email</span>
+        <a href="mailto:syedmohsin.ali@zaptatech.com" class="cr-val">syedmohsin@zaptatech</a>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ══ PROJECTS ══ -->
-<section id="projects-sec">
-  <div class="wrap">
-    <div class="reveal">
-      <div class="section-eyebrow">ZAPTA's Work</div>
-      <h2 class="section-title">Products Brought to Life</h2>
-      <p class="section-sub">Each project card in the redesign features premium imagery matched to the product's industry.</p>
-    </div>
-    <div class="projects-showcase">
-      <!-- DrBroker featured -->
-      <div class="proj-card wide reveal d1">
-        <div class="proj-img">
-          <img
-            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=90"
-            alt="DrBroker Real Estate"
-            onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=90'"
-          >
-        </div>
-        <div class="proj-body">
-          <div class="proj-tags"><span class="proj-tag">Real Estate</span><span class="proj-tag">Laravel</span><span class="proj-tag">MySQL</span></div>
-          <h3>DrBroker</h3>
-          <p>A transaction tracker for real estate professionals — ensuring smooth, transparent deals for buyers and sellers with real-time tracking and document management.</p>
-        </div>
-      </div>
-      <!-- MEtutors -->
-      <div class="proj-card reveal d2">
-        <div class="proj-img">
-          <img
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=90"
-            alt="MEtutors EdTech"
-            onerror="this.src='https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=90'"
-          >
-        </div>
-        <div class="proj-body">
-          <div class="proj-tags"><span class="proj-tag">EdTech</span><span class="proj-tag">AI-Powered</span></div>
-          <h3>MEtutors</h3>
-          <p>AI-powered platform matching students with expert tutors for personalized learning and simplified booking.</p>
-        </div>
-      </div>
-      <!-- QuickSteps -->
-      <div class="proj-card reveal d3">
-        <div class="proj-img">
-          <img
-            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=90"
-            alt="QuickSteps FinTech"
-            onerror="this.src='https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=90'"
-          >
-        </div>
-        <div class="proj-body">
-          <div class="proj-tags"><span class="proj-tag">FinTech</span><span class="proj-tag">Next.js</span></div>
-          <h3>QuickSteps</h3>
-          <p>Streamlined accounting and operations for SMBs. One centralized platform, all your numbers.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ CTA / CLOSE ══ -->
-<section id="cta">
-  <div class="wrap">
-    <div class="cta-inner reveal">
-      <div class="section-eyebrow" style="margin-bottom:24px;">Let's Work Together</div>
-      <h2>Ready to Build Something <em>Great?</em></h2>
-      <p>The redesign is already built. The concept is live. Let's discuss how I can bring this — and more — to ZAPTA's frontend team.</p>
-      <div class="cta-actions">
-        <a href="./demo.html" target="_blank" class="btn btn-accent" style="font-size:15px;padding:15px 36px;">View Live Demo →</a>
-        <a href="mailto:syedmohsin.ali@zaptatech.com" class="btn btn-outline">Send to Team →</a>
-      </div>
-      <div class="contact-bar">
-        <div class="contact-item">
-          <span class="contact-label">LinkedIn</span>
-          <a href="https://linkedin.com/in/enoch-babatunde-464751328" target="_blank" class="contact-val">enoch-babatunde</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-label">GitHub</span>
-          <a href="https://github.com/KingE-ops" target="_blank" class="contact-val">KingE-ops</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-label">Portfolio</span>
-          <a href="https://enochport.netlify.app" target="_blank" class="contact-val">enochport.netlify.app</a>
-        </div>
-        <!-- <div class="contact-item">
-          <span class="contact-label">Send Proposal to</span>
-          <a href="mailto:syedmohsin.ali@zaptatech.com" class="contact-val">syedmohsin.ali@zaptatech.com</a>
-        </div> -->
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-inner">
-    <div class="footer-copy">© 2026 Enoch Babatunde · Website Redesign Proposal for ZAPTA Technologies</div>
-    <div class="footer-note">Prepared exclusively for ZAPTA Technologies (Pvt.) Limited · Not for redistribution</div>
-  </div>
-</footer>
+</div>
 
 <script>
-// Scroll reveal
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('active'); obs.unobserve(e.target); } });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-</script>
+const slides = document.querySelectorAll('.slide');
+const dots = document.getElementById('navDots');
+const progressFill = document.getElementById('progressFill');
+const currentNum = document.getElementById('currentNum');
+const totalNum = document.getElementById('totalNum');
+const arrowHint = document.getElementById('arrowHint');
+const TOTAL = slides.length;
+let current = 0;
+let animating = false;
 
+totalNum.textContent = String(TOTAL).padStart(2,'0');
+
+slides.forEach((_,i) => {
+  const d = document.createElement('button');
+  d.className = 'nav-dot' + (i===0?' active':'');
+  d.setAttribute('aria-label','Slide '+(i+1));
+  d.onclick = () => goTo(i);
+  dots.appendChild(d);
+});
+
+function goTo(n) {
+  if(animating || n === current || n < 0 || n >= TOTAL) return;
+  animating = true;
+  const prev = current;
+  current = n;
+
+  slides[prev].classList.add('exit-up');
+  slides[prev].classList.remove('active');
+
+  setTimeout(() => {
+    slides[prev].classList.remove('exit-up');
+    slides[current].classList.add('active');
+    animating = false;
+  }, 400);
+
+  document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('active', i===current));
+  progressFill.style.width = ((current/(TOTAL-1))*100)+'%';
+  currentNum.textContent = String(current+1).padStart(2,'0');
+  arrowHint.classList.toggle('hidden', current === TOTAL-1);
+
+  if(current === 4) startServiceOrbit();
+  if(current === 6) startMiniOrbit();
+}
+
+window.addEventListener('keydown', e => {
+  if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); goTo(current+1); }
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft') { e.preventDefault(); goTo(current-1); }
+});
+
+let wheelLock = false;
+window.addEventListener('wheel', e => {
+  if(wheelLock) return;
+  wheelLock = true;
+  setTimeout(()=>wheelLock=false, 900);
+  if(e.deltaY > 0) goTo(current+1);
+  else goTo(current-1);
+}, {passive:true});
+
+let touchStartY = 0, touchStartX = 0;
+window.addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+}, {passive:true});
+
+window.addEventListener('touchend', e => {
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  const dx = Math.abs(touchStartX - e.changedTouches[0].clientX);
+  if(Math.abs(dy) > 50 && Math.abs(dy) > dx) {
+    dy > 0 ? goTo(current+1) : goTo(current-1);
+  }
+});
+
+arrowHint.onclick = () => goTo(current+1);
+
+(function(){
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, pts = [];
+  function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  for(let i=0;i<55;i++) pts.push({
+    x:Math.random()*3000, y:Math.random()*3000,
+    r:Math.random()*1.2+.2,
+    vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25,
+    o:Math.random()*.3+.04
+  });
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,229,160,${p.o})`; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+let serviceOrbitStarted = false;
+function startServiceOrbit(){
+  if(serviceOrbitStarted) return;
+  serviceOrbitStarted = true;
+  const canvas = document.getElementById('svcCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const CW = 480, CH = 480;
+
+  function getSize(){
+    const r = canvas.getBoundingClientRect();
+    return {w: r.width, h: r.height, scale: r.width/CW};
+  }
+
+  const services = [
+    {icon:'⚡',label:'Web Dev',  full:'Web Development',      ring:0, ao:0},
+    {icon:'📱',label:'Mobile',   full:'Mobile Development',   ring:0, ao:Math.PI},
+    {icon:'🤖',label:'AI/ML',    full:'AI / ML Applications', ring:1, ao:Math.PI/4},
+    {icon:'🎨',label:'UI/UX',    full:'UI / UX Design',       ring:1, ao:Math.PI+Math.PI/4},
+    {icon:'🚀',label:'MVP',      full:'MVP Development',      ring:2, ao:Math.PI*1.5},
+    {icon:'👥',label:'Teams',    full:'Dedicated Teams',      ring:2, ao:Math.PI/2},
+  ];
+  const rings=[{r:80,sp:.009,a:0},{r:145,sp:-.006,a:0},{r:205,sp:.004,a:0}];
+  const IR=28; let hov=null, mx=-999, my=-999, gt=0;
+
+  function frame(){
+    ctx.clearRect(0,0,CW,CH);
+    const cx=CW/2, cy=CH/2;
+    rings.forEach(r=>r.a+=r.sp);
+    gt+=.025;
+
+    const gr=75+Math.sin(gt)*12;
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,gr);
+    g.addColorStop(0,`rgba(0,229,160,${.15+Math.sin(gt)*.05})`);
+    g.addColorStop(1,'rgba(0,229,160,0)');
+    ctx.beginPath(); ctx.arc(cx,cy,gr,0,Math.PI*2);
+    ctx.fillStyle=g; ctx.fill();
+
+    rings.forEach((ring,i)=>{
+      ctx.beginPath(); ctx.arc(cx,cy,ring.r,0,Math.PI*2);
+      ctx.strokeStyle=i===0?'rgba(0,229,160,.2)':i===1?'rgba(0,229,160,.12)':'rgba(0,229,160,.07)';
+      ctx.lineWidth=1; ctx.setLineDash([4,8]); ctx.stroke(); ctx.setLineDash([]);
+    });
+
+    const pos=services.map(s=>{
+      const rg=rings[s.ring]; const a=rg.a+s.ao;
+      return {...s, x:cx+Math.cos(a)*rg.r, y:cy+Math.sin(a)*rg.r};
+    });
+
+    pos.forEach(s=>{
+      if(hov&&hov.full===s.full){
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(s.x,s.y);
+        const gd=ctx.createLinearGradient(cx,cy,s.x,s.y);
+        gd.addColorStop(0,'rgba(0,229,160,.5)'); gd.addColorStop(1,'rgba(0,229,160,0)');
+        ctx.strokeStyle=gd; ctx.lineWidth=1; ctx.stroke();
+      }
+    });
+
+    pos.forEach(s=>{
+      const isH=hov&&hov.full===s.full;
+      const sc=isH?1.25:1; const r=IR*sc;
+      ctx.save(); ctx.translate(s.x,s.y);
+      if(isH){ctx.shadowColor='rgba(0,229,160,.7)';ctx.shadowBlur=24;}
+      ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2);
+      ctx.fillStyle=isH?'rgba(0,229,160,.15)':'rgba(8,12,20,.95)'; ctx.fill();
+      ctx.strokeStyle=isH?'rgba(0,229,160,.8)':'rgba(0,229,160,.22)';
+      ctx.lineWidth=isH?1.5:1; ctx.stroke();
+      ctx.shadowBlur=0;
+      ctx.font=`${18*sc}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(s.icon,0,-4);
+      ctx.font=`700 ${6.5*sc}px 'Plus Jakarta Sans',sans-serif`;
+      ctx.fillStyle=isH?'#00E5A0':'#68788a';
+      ctx.fillText(s.label.toUpperCase(),0,13*sc);
+      ctx.restore();
+    });
+
+    ctx.beginPath(); ctx.arc(cx,cy,46,0,Math.PI*2);
+    const hg=ctx.createRadialGradient(cx,cy,0,cx,cy,46);
+    hg.addColorStop(0,'rgba(0,229,160,.2)'); hg.addColorStop(1,'rgba(0,229,160,.04)');
+    ctx.fillStyle=hg; ctx.fill();
+    ctx.strokeStyle='rgba(0,229,160,.45)'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.font="bold 14px 'Plus Jakarta Sans',sans-serif";
+    ctx.fillStyle='#F0EEE8'; ctx.fillText('ZAPTA',cx-4,cy-6);
+    ctx.fillStyle='#00E5A0'; ctx.fillText('.',cx+21,cy-6);
+    ctx.font="600 7px 'Plus Jakarta Sans',sans-serif";
+    ctx.fillStyle='#68788a'; ctx.fillText('TECH',cx,cy+7);
+
+    hov=null;
+    pos.forEach(s=>{
+      if(Math.hypot(mx-s.x,my-s.y)<IR*1.4){ hov=s; canvas.style.cursor='pointer'; }
+    });
+    if(!hov) canvas.style.cursor='default';
+    requestAnimationFrame(frame);
+  }
+
+  canvas.addEventListener('mousemove',e=>{
+    const r=canvas.getBoundingClientRect();
+    mx=(e.clientX-r.left)*(CW/r.width); my=(e.clientY-r.top)*(CH/r.height);
+  });
+  canvas.addEventListener('mouseleave',()=>{mx=-999;my=-999;});
+
+  canvas.addEventListener('touchstart',e=>{
+    const r=canvas.getBoundingClientRect();
+    mx=(e.touches[0].clientX-r.left)*(CW/r.width);
+    my=(e.touches[0].clientY-r.top)*(CH/r.height);
+  },{passive:true});
+  canvas.addEventListener('touchend',()=>{setTimeout(()=>{mx=-999;my=-999;},600);},{passive:true});
+
+  frame();
+}
+
+let miniOrbitStarted = false;
+function startMiniOrbit(){
+  if(miniOrbitStarted) return;
+  miniOrbitStarted = true;
+  const canvas = document.getElementById('miniOrbit');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W=240,H=240,cx=W/2,cy=H/2;
+  const svcs=[
+    {icon:'⚡',ring:0,ao:0},{icon:'📱',ring:0,ao:Math.PI},
+    {icon:'🤖',ring:1,ao:Math.PI/4},{icon:'🎨',ring:1,ao:Math.PI+Math.PI/4},
+    {icon:'🚀',ring:2,ao:Math.PI*1.5},{icon:'👥',ring:2,ao:Math.PI/2},
+  ];
+  const rings=[{r:40,sp:.012,a:0},{r:72,sp:-.008,a:0},{r:100,sp:.005,a:0}];
+  const IR=13; let gt=0;
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    rings.forEach(r=>r.a+=r.sp); gt+=.025;
+    const gr=36+Math.sin(gt)*6;
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,gr);
+    g.addColorStop(0,`rgba(0,229,160,.18)`); g.addColorStop(1,'rgba(0,229,160,0)');
+    ctx.beginPath(); ctx.arc(cx,cy,gr,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+    rings.forEach((ring,i)=>{
+      ctx.beginPath(); ctx.arc(cx,cy,ring.r,0,Math.PI*2);
+      ctx.strokeStyle=i===0?'rgba(0,229,160,.2)':i===1?'rgba(0,229,160,.12)':'rgba(0,229,160,.07)';
+      ctx.lineWidth=.8; ctx.setLineDash([3,6]); ctx.stroke(); ctx.setLineDash([]);
+    });
+    svcs.forEach(s=>{
+      const rg=rings[s.ring]; const a=rg.a+s.ao;
+      const x=cx+Math.cos(a)*rg.r, y=cy+Math.sin(a)*rg.r;
+      ctx.save(); ctx.translate(x,y);
+      ctx.beginPath(); ctx.arc(0,0,IR,0,Math.PI*2);
+      ctx.fillStyle='rgba(8,12,20,.95)'; ctx.fill();
+      ctx.strokeStyle='rgba(0,229,160,.2)'; ctx.lineWidth=.8; ctx.stroke();
+      ctx.font=`9px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(s.icon,0,0);
+      ctx.restore();
+    });
+    ctx.beginPath(); ctx.arc(cx,cy,22,0,Math.PI*2);
+    const hg=ctx.createRadialGradient(cx,cy,0,cx,cy,22);
+    hg.addColorStop(0,'rgba(0,229,160,.2)'); hg.addColorStop(1,'rgba(0,229,160,.04)');
+    ctx.fillStyle=hg; ctx.fill();
+    ctx.strokeStyle='rgba(0,229,160,.4)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.font="bold 7px 'Plus Jakarta Sans',sans-serif";
+    ctx.fillStyle='#F0EEE8'; ctx.fillText('ZAPTA',cx-2,cy-3);
+    ctx.fillStyle='#00E5A0'; ctx.fillText('.',cx+10,cy-3);
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+progressFill.style.width = '0%';
+</script>
 </body>
 </html>

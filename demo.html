@@ -24,7 +24,6 @@ html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
 h1,h2,h3,h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-/* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   display: flex; align-items: center; justify-content: space-between;
@@ -41,7 +40,6 @@ nav {
 .nav-cta { background: var(--accent); color: #080B10; font-weight: 700; font-size: 13px; padding: 10px 24px; border: none; cursor: pointer; letter-spacing: .3px; text-decoration: none; transition: opacity .2s; }
 .nav-cta:hover { opacity: .85; }
 
-/* ── HERO ── */
 .hero {
   min-height: 100vh;
   position: relative; overflow: hidden;
@@ -52,7 +50,7 @@ nav {
   gap: 40px;
 }
 .hero-video-bg { position: absolute; inset: 0; z-index: 0; }
-.hero-video-bg video { width: 100%; height: 100%; object-fit: cover; opacity: .25; }
+.hero-video-bg video { width: 100%; height: 100%; object-fit: cover; opacity: .5; }
 .hero-video-bg::after {
   content: '';
   position: absolute; inset: 0;
@@ -65,7 +63,6 @@ nav {
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
 }
 
-/* LEFT content */
 .hero-content { position: relative; z-index: 2; max-width: 560px; }
 
 .hero-badge {
@@ -90,7 +87,6 @@ nav {
 .btn-ghost { background: transparent; color: var(--text); font-weight: 600; font-size: 14px; padding: 13px 32px; border: 1px solid var(--border-h); cursor: pointer; text-decoration: none; transition: border-color .2s, background .2s; display: inline-flex; align-items: center; gap: 8px; }
 .btn-ghost:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.04); }
 
-/* ── ORBIT (canvas) ── */
 .hero-orbit {
   position: relative; z-index: 2;
   display: flex; align-items: center; justify-content: center;
@@ -122,7 +118,6 @@ nav {
   z-index: 10;
 }
 
-/* scroll indicator */
 .scroll-indicator {
   position: absolute; bottom: 36px; left: 60px; z-index: 2;
   display: flex; align-items: center; gap: 12px;
@@ -134,7 +129,6 @@ nav {
 .scroll-line::after { content: ''; position: absolute; left: -40px; top: 0; width: 40px; height: 1px; background: var(--accent); animation: scrollAnim 2s infinite; }
 @keyframes scrollAnim { 0%{left:-40px} 100%{left:40px} }
 
-/* ── STATS ── */
 .stats-bar { background: var(--bg3); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 60px; display: grid; grid-template-columns: repeat(4,1fr); }
 .stat-item { padding: 0 40px; border-right: 1px solid var(--border); }
 .stat-item:first-child { padding-left: 0; }
@@ -144,7 +138,6 @@ nav {
 .stat-label { font-size: 13px; color: var(--muted); font-weight: 400; }
 .count-up { display: inline; }
 
-/* ── MARQUEE ── */
 .marquee-section { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 20px 0; overflow: hidden; }
 .marquee-track { display: flex; gap: 60px; white-space: nowrap; animation: marquee 25s linear infinite; }
 .marquee-track:hover { animation-play-state: paused; }
@@ -152,7 +145,6 @@ nav {
 .marquee-item::before { content: '✦'; color: var(--accent); font-size: 10px; }
 @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-/* ── SECTION commons ── */
 section { padding: 100px 60px; }
 .section-tag { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
 .section-title { font-size: clamp(32px,4vw,48px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
@@ -161,7 +153,6 @@ section { padding: 100px 60px; }
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: none; }
 
-/* ── SERVICES ── */
 .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; flex-wrap: wrap; gap: 32px; }
 .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
 .service-card { background: var(--bg2); padding: 40px 36px; position: relative; overflow: hidden; transition: background .3s; cursor: pointer; }
@@ -176,7 +167,6 @@ section { padding: 100px 60px; }
 .service-arrow { position: absolute; top: 36px; right: 36px; color: var(--muted); font-size: 20px; transition: color .2s, transform .2s; }
 .service-card:hover .service-arrow { color: var(--accent); transform: translate(3px,-3px); }
 
-/* ── TESTIMONIALS ── */
 .testimonial-section { background: var(--bg3); }
 .testimonial-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .video-player-box { position: relative; background: var(--bg2); border: 1px solid var(--border-h); overflow: hidden; cursor: pointer; aspect-ratio: 16/9; }
@@ -211,7 +201,7 @@ section { padding: 100px 60px; }
 .test-author-name { font-size: 13px; font-weight: 700; }
 .test-author-role { font-size: 11px; color: var(--muted); }
 
-/* ── PROJECTS ── */
+
 .projects-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; margin-top: 60px; }
 .project-card { background: var(--bg2); border: 1px solid var(--border); overflow: hidden; transition: border-color .3s, transform .3s; cursor: pointer; }
 .project-card:hover { border-color: var(--border-h); transform: translateY(-4px); }
@@ -230,7 +220,6 @@ section { padding: 100px 60px; }
 .project-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; color: var(--accent); font-size: 13px; font-weight: 700; text-decoration: none; letter-spacing: .3px; transition: gap .2s; }
 .project-link:hover { gap: 12px; }
 
-/* ── PROCESS ── */
 .process-section { background: var(--bg3); }
 .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
 .process-steps { display: flex; flex-direction: column; }
@@ -244,7 +233,6 @@ section { padding: 100px 60px; }
 .process-img { width: 100%; border: 1px solid var(--border); filter: brightness(.7) saturate(.8); transition: filter .3s, opacity .2s; }
 .process-img:hover { filter: brightness(.9) saturate(1); }
 
-/* ── CTA ── */
 .cta-section { background: var(--bg3); border-top: 1px solid var(--border); text-align: center; padding: 120px 60px; position: relative; overflow: hidden; }
 .cta-glow { position: absolute; width: 600px; height: 400px; background: radial-gradient(circle, rgba(0,229,160,.06) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
 .cta-section h2 { font-size: clamp(36px,5vw,64px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; position: relative; z-index: 1; line-height: 1.05; }
@@ -252,7 +240,6 @@ section { padding: 100px 60px; }
 .cta-section p { font-size: 18px; color: var(--muted); font-weight: 400; margin-bottom: 48px; position: relative; z-index: 1; }
 .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
 
-/* ── FOOTER ── */
 footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60px 60px 40px; }
 .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
 .footer-brand p { font-size: 14px; color: var(--muted); font-weight: 400; margin-top: 16px; line-height: 1.7; }
@@ -294,13 +281,11 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   .scroll-indicator { display: none; }
 }
 
-/* ── PROJECTS SLIDESHOW ── */
 .slideshow-wrap {
   position: relative;
   width: 100%;
 }
 
-/* main slide */
 .slideshow-track { position: relative; width: 100%; }
 
 .slide {
@@ -386,7 +371,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
 }
 .slide-link:hover { gap: 14px; }
 
-/* CONTROLS ROW */
 .slideshow-controls {
   display: flex; align-items: center;
   justify-content: space-between;
@@ -422,7 +406,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   color: var(--accent);
 }
 
-/* THUMBNAIL STRIP */
 .slide-thumbs {
   display: grid; grid-template-columns: repeat(4,1fr);
   gap: 8px;
@@ -453,7 +436,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
 }
 .slide-thumb.active .thumb-label { color: var(--accent); }
 
-/* mobile */
 @media (max-width: 900px) {
   .slide { grid-template-columns: 1fr; }
   .slide-img { min-height: 240px; }
@@ -478,7 +460,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   <a href="#contact" class="nav-cta">Book a Call →</a>
 </nav>
 
-<!-- HERO -->
+
 <section class="hero">
   <div class="hero-video-bg">
     <video autoplay muted loop playsinline>
@@ -487,7 +469,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
   <div class="hero-grid"></div>
 
-  <!-- LEFT: text -->
   <div class="hero-content">
     <div class="hero-badge">AI-Centric Software Development</div>
     <h1>We Build Software<br>That <em>Scales</em> Your<br>Business.</h1>
@@ -498,7 +479,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
     </div>
   </div>
 
-  <!-- RIGHT: orbit animation (canvas) -->
   <div class="hero-orbit">
     <div class="orbit-wrap">
       <canvas id="orbitCanvas" width="500" height="500"></canvas>
@@ -512,7 +492,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
 </section>
 
-<!-- MARQUEE -->
 <div class="marquee-section">
   <div class="marquee-track">
     <div class="marquee-item">Custom Software</div>
@@ -536,7 +515,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
 </div>
 
-<!-- STATS -->
 <div class="stats-bar">
   <div class="stat-item reveal">
     <div class="stat-number"><span class="count-up" data-target="150">0</span><span>+</span></div>
@@ -556,7 +534,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
 </div>
 
-<!-- SERVICES -->
 <section id="services">
   <div class="services-header reveal">
     <div>
@@ -611,7 +588,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section id="testimonials" class="testimonial-section">
   <div class="section-tag reveal">From The Top</div>
   <h2 class="section-title reveal" style="margin-bottom:60px;">Hear From<br>Our CEO</h2>
@@ -671,19 +647,15 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="section-tag reveal">Our Work</div>
   <h2 class="section-title reveal">Products We've<br>Brought to Life</h2>
   <p class="section-sub reveal" style="margin-bottom:60px;">Premium software built for real industries — from real estate to AI-powered EdTech.</p>
 
-  <!-- SLIDESHOW WRAPPER -->
   <div class="slideshow-wrap reveal">
 
-    <!-- TRACK -->
     <div class="slideshow-track" id="slideshowTrack">
 
-      <!-- SLIDE 1: DrBroker -->
       <div class="slide active">
         <div class="slide-img">
           <img
@@ -708,7 +680,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
         </div>
       </div>
 
-      <!-- SLIDE 2: MEtutors -->
       <div class="slide">
         <div class="slide-img">
           <img
@@ -733,7 +704,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
         </div>
       </div>
 
-      <!-- SLIDE 3: QuickSteps -->
       <div class="slide">
         <div class="slide-img">
           <img
@@ -757,8 +727,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
           <a href="https://zaptatech.com/projects/quicksteps" target="_blank" class="slide-link">View Case Study →</a>
         </div>
       </div>
-
-      <!-- SLIDE 4: Lahebo -->
       <div class="slide">
         <div class="slide-img">
           <img
@@ -783,25 +751,21 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
         </div>
       </div>
 
-    </div><!-- /track -->
+    </div>
 
-    <!-- CONTROLS -->
     <div class="slideshow-controls">
-      <!-- thumbnail dots -->
       <div class="slide-dots">
         <button class="slide-dot active" data-index="0"></button>
         <button class="slide-dot" data-index="1"></button>
         <button class="slide-dot" data-index="2"></button>
         <button class="slide-dot" data-index="3"></button>
       </div>
-      <!-- prev / next -->
       <div class="slide-arrows">
         <button class="slide-arrow" id="slidePrev">←</button>
         <button class="slide-arrow" id="slideNext">→</button>
       </div>
     </div>
 
-    <!-- THUMBNAIL STRIP -->
     <div class="slide-thumbs">
       <div class="slide-thumb active" data-index="0">
         <img src="./images/luke-chesser-JKUTrJ4vK00-unsplash.jpg" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80'" alt="DrBroker">
@@ -821,10 +785,9 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
       </div>
     </div>
 
-  </div><!-- /slideshow-wrap -->
+  </div>
 </section>
 
-<!-- PROCESS -->
 <section id="process" class="process-section">
   <div class="section-tag reveal">How We Work</div>
   <h2 class="section-title reveal" style="margin-bottom:60px;">A Process Built<br>for Results</h2>
@@ -842,7 +805,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
 </section>
 
-<!-- CTA -->
 <section id="contact" class="cta-section">
   <div class="cta-glow"></div>
   <div class="section-tag reveal" style="margin-bottom:24px;">Let's Work Together</div>
@@ -854,7 +816,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
@@ -906,7 +867,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
 <div class="redesign-watermark">✦ REDESIGN CONCEPT</div>
 
 <script>
-/* PARTICLES */
 (function(){
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
@@ -922,13 +882,11 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   draw();
 })();
 
-/* SCROLL REVEAL */
 (function(){
   const obs = new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 })();
 
-/* COUNT UP */
 (function(){
   const obs = new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -943,7 +901,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   document.querySelectorAll('.count-up').forEach(el=>obs.observe(el));
 })();
 
-/* VIDEO PLAYER */
 (function(){
   const video=document.getElementById('clientVideo');
   const box=document.getElementById('videoBox');
@@ -971,7 +928,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   fullscreenBtn.addEventListener('click',e=>{ e.stopPropagation(); if(box.requestFullscreen)box.requestFullscreen(); });
 })();
 
-/* PROCESS IMAGE SWAP */
+
 (function(){
   const steps=document.querySelectorAll('.process-step');
   const imgs=['./images/sayyam-abbasi-VJjQo_zyr7Q-unsplash.svg','./images/alghozy-0_ZaIUL03x0-unsplash.svg','./images/sayyam-abbasi-mdnIXfPTVKo-unsplash.svg','./images/salman-ahmad-felR0PqEqLM-unsplash.svg','./images/vectorelements-IpkpFXQpqCI-unsplash.svg'];
@@ -981,7 +938,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   steps.forEach((step,i)=>{ step.addEventListener('mouseenter',()=>{ if(imgs[i]){ processImg.style.opacity='0'; setTimeout(()=>{ processImg.src=imgs[i]; processImg.style.opacity='1'; },200); } }); });
 })();
 
-/* ── ORBIT CANVAS ── */
 (function(){
   const canvas = document.getElementById('orbitCanvas');
   if(!canvas) return;
@@ -1013,7 +969,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
     rings.forEach(r=>{ r.angle += r.speed; });
     glowT += 0.02;
 
-    // center glow pulse
     const glowAlpha = 0.06 + Math.sin(glowT)*0.04;
     const glowR = 80 + Math.sin(glowT)*15;
     const glow = ctx.createRadialGradient(cx,cy,0,cx,cy,glowR);
@@ -1022,24 +977,21 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
     ctx.beginPath(); ctx.arc(cx,cy,glowR,0,Math.PI*2);
     ctx.fillStyle=glow; ctx.fill();
 
-    // rings
     rings.forEach((ring,i)=>{
       ctx.beginPath(); ctx.arc(cx,cy,ring.r,0,Math.PI*2);
       ctx.strokeStyle = i===0?'rgba(0,229,160,0.18)':i===1?'rgba(0,229,160,0.10)':'rgba(0,229,160,0.06)';
       ctx.lineWidth=1; ctx.setLineDash([4,8]); ctx.stroke(); ctx.setLineDash([]);
     });
-    // outer decorative
+   
     ctx.beginPath(); ctx.arc(cx,cy,245,0,Math.PI*2);
     ctx.strokeStyle='rgba(0,229,160,0.03)'; ctx.lineWidth=1; ctx.stroke();
 
-    // compute positions
     const positions = services.map(s=>{
       const ring = rings[s.ring];
       const angle = ring.angle + s.angleOffset;
       return { ...s, x: cx+Math.cos(angle)*ring.r, y: cy+Math.sin(angle)*ring.r };
     });
 
-    // connector lines for hovered
     positions.forEach(s=>{
       if(hoveredService && hoveredService.full===s.full){
         ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(s.x,s.y);
@@ -1050,7 +1002,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
       }
     });
 
-    // draw icons
     positions.forEach(s=>{
       const isHovered = hoveredService && hoveredService.full===s.full;
       const scale = isHovered ? 1.2 : 1;
@@ -1071,7 +1022,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
       ctx.restore();
     });
 
-    // center hub
     ctx.beginPath(); ctx.arc(cx,cy,50,0,Math.PI*2);
     const hubGrad=ctx.createRadialGradient(cx,cy,0,cx,cy,50);
     hubGrad.addColorStop(0,'rgba(0,229,160,0.18)');
@@ -1085,7 +1035,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
     ctx.font="600 8px 'Plus Jakarta Sans',sans-serif";
     ctx.fillStyle='#7A8494'; ctx.fillText('TECH', cx, cy+8);
 
-    // hover detection
+
     hoveredService = null;
     positions.forEach(s=>{
       if(Math.hypot(mouseX-s.x, mouseY-s.y) < ICON_R*1.3){
@@ -1108,7 +1058,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
 })();
 
 
-/* SLIDESHOW */
+
 (function(){
   const slides   = document.querySelectorAll('.slide');
   const dots     = document.querySelectorAll('.slide-dot');
@@ -1141,13 +1091,13 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60
   dots.forEach(d  => d.addEventListener('click',  () => { goTo(parseInt(d.dataset.index));  resetAuto(); }));
   thumbs.forEach(t => t.addEventListener('click', () => { goTo(parseInt(t.dataset.index)); resetAuto(); }));
 
-  // keyboard
+  
   document.addEventListener('keydown', e => {
     if(e.key === 'ArrowLeft')  { goTo(current - 1); resetAuto(); }
     if(e.key === 'ArrowRight') { goTo(current + 1); resetAuto(); }
   });
 
-  // touch swipe
+ 
   let touchStartX = 0;
   const track = document.getElementById('slideshowTrack');
   if(track){
